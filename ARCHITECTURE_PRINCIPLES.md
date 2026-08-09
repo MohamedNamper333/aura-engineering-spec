@@ -1,38 +1,25 @@
 ---
-document_id: GUIDE-ARCH-0001
-
+document_id: STANDARD-ARCH-0001
 title: Architecture Principles
-
 status: Approved
-
 version: 1.0.0
-
 owner: AURA Architecture Team
-
 classification: Engineering Standard
-
 review_cycle: Annual
-
 review_owner: AURA Architecture Team
-
 approved_by: Repository Maintainers
-
 effective_date: YYYY-MM-DD
-
 supersedes: null
-
 superseded_by: null
 ---
 
 # Architecture Principles
 
----
-
-# Revision History
+## Revision History
 
 | Version | Date | Description |
-|----------|------|-------------|
-| 1.0.0 | YYYY-MM-DD | Initial architecture principles standard. |
+|---|---|---|
+| 1.0.0 | YYYY-MM-DD | Initial architecture principles. |
 
 ---
 
@@ -42,1713 +29,1533 @@ superseded_by: null
 
 ## Normative Language
 
----
-
-## PART I — Architecture Philosophy
+## PART I — Architectural Foundation
 
 1. Purpose
 2. Scope
-3. Architecture Philosophy
+3. Architectural Objectives
 4. Core Principles
-
----
-
-## PART II — Architectural Principles
-
 5. Separation of Concerns
 6. Modularity
-7. High Cohesion
-8. Loose Coupling
-9. Dependency Inversion
-10. Single Responsibility
-11. Scalability
-12. Maintainability
-13. Security by Design
+7. Dependency Direction
+8. Coupling and Cohesion
+9. Single Responsibility
 
----
+## PART II — System Structure
 
-## PART III — Engineering Practices
+10. Boundary Definition
+11. Interface Design
+12. Abstraction
+13. Data Ownership
+14. State Management
+15. Configuration
+16. Extensibility
+17. Scalability
 
-14. Performance by Design
-15. Fail Fast
-16. Explicit Boundaries
-17. Stateless Services
-18. Configuration Management
-19. Error Handling
-20. Evolution Strategy
+## PART III — Reliability, Security, and Evolution
 
----
+18. Reliability
+19. Failure Isolation
+20. Security by Design
+21. Observability by Design
+22. Performance
+23. Backward Compatibility
+24. Evolutionary Architecture
 
-## PART IV — Governance
+## PART IV — Architectural Governance
 
-21. Review Checklist
-22. Exceptions
-23. Related Documents
-24. Versioning
-25. Document Status
+25. Architecture Decisions
+26. RFC and ADR Relationship
+27. Architecture Review
+28. Exceptions
+29. Related Documents
+30. Versioning
+31. Document Status
 
----
+## Appendix A — Architecture Principle Matrix
 
-## Appendix A — Architecture Layers
+## Appendix B — Boundary Review Matrix
 
-## Appendix B — Design Decision Matrix
-
-## Appendix C — Engineering Principles Summary
+## Appendix C — Architecture Decision Matrix
 
 ## Appendix D — Architecture Review Checklist
 
+---
 
 # Definitions
 
-The following definitions establish consistent architectural terminology throughout this document.
-
----
-
 ## Architecture
 
-The high-level organization of software components, their responsibilities, relationships, and interactions.
-
-Architecture defines how a system is structured to satisfy functional and non-functional requirements.
-
----
+The structure of a system, including its components, boundaries, dependencies, interfaces, data flows, constraints, and important operational characteristics.
 
 ## Component
 
-A logical unit responsible for a well-defined capability within the system.
-
-Components SHOULD expose clear interfaces and minimize unnecessary dependencies.
-
----
+A logically bounded unit of functionality with defined responsibilities and interfaces.
 
 ## Module
 
-A cohesive collection of related functionality that can evolve independently while maintaining defined boundaries.
+A cohesive implementation unit that encapsulates related functionality.
 
----
+## Boundary
 
-## Service
+A defined separation between components, modules, services, domains, or other architectural responsibilities.
 
-An independently deployable software unit responsible for delivering one or more business capabilities.
+## Interface
 
----
+A defined mechanism through which one component interacts with another.
 
 ## Dependency
 
-A relationship in which one component relies upon another to perform its responsibilities.
-
-Dependencies SHOULD remain explicit, minimal, and well understood.
-
----
+A relationship in which one component requires another component, service, library, resource, or external capability.
 
 ## Coupling
 
-The degree to which software components depend upon one another.
-
-Lower coupling generally improves flexibility and maintainability.
-
----
+The degree to which one component depends on another component's implementation, behavior, or lifecycle.
 
 ## Cohesion
 
 The degree to which the responsibilities within a component belong together.
 
-Higher cohesion generally improves readability, maintainability, and testability.
+## Abstraction
+
+A stable interface that hides unnecessary implementation details from its consumers.
+
+## Domain
+
+A logically bounded area of business or technical responsibility.
+
+## Invariant
+
+A condition that SHALL remain true within a defined architectural or operational boundary.
+
+## Architectural Decision
+
+A significant decision that affects system structure, behavior, constraints, or long-term evolution.
+
+## RFC
+
+A proposal used to evaluate a significant technical or architectural change before acceptance.
+
+## ADR
+
+A record of an accepted architectural decision and its rationale.
+
+## Technical Debt
+
+A deliberate or accidental condition in which a system accumulates additional future cost because of a current implementation or architectural choice.
+
+## Architectural Drift
+
+A condition in which the implemented architecture diverges materially from the intended architecture.
 
 ---
-
-## Boundary
-
-A clearly defined separation between architectural components.
-
-Boundaries establish ownership, responsibilities, and interaction rules.
-
----
-
-## Layer
-
-A logical grouping of components that share similar responsibilities.
-
-Layers organize complexity and improve maintainability.
-
----
-
-## Scalability
-
-The capability of a system to continue operating effectively as workload, users, or data volume increase.
-
----
-
-## Maintainability
-
-The ease with which software can be modified, corrected, extended, or improved throughout its lifecycle.
 
 # Normative Language
 
-The keywords **SHALL**, **SHALL NOT**, **SHOULD**, **SHOULD NOT**, and **MAY** used throughout this document are interpreted according to the principles defined in RFC 2119.
+The keywords **SHALL**, **SHALL NOT**, **SHOULD**, **SHOULD NOT**, and **MAY** are interpreted according to RFC 2119.
 
 ---
 
-## SHALL
-
-Indicates an absolute architectural requirement.
-
----
-
-## SHALL NOT
-
-Indicates an absolute architectural prohibition.
-
----
-
-## SHOULD
-
-Indicates a strong architectural recommendation.
-
----
-
-## SHOULD NOT
-
-Indicates a generally discouraged architectural practice.
-
----
-
-## MAY
-
-Indicates an optional architectural practice whose applicability depends upon engineering context.
-
-# PART I — Architecture Philosophy
-
----
+# PART I — Architectural Foundation
 
 # 1. Purpose
 
-## Objective
+This standard defines the fundamental architectural principles governing AURA systems.
 
-This document defines the architectural principles governing repositories developed under the **AURA Engineering Standards**.
+The purpose is to ensure that architecture remains:
 
-Its purpose is to establish a consistent engineering foundation that promotes maintainability, scalability, reliability, security, and long-term software evolution.
+- Understandable.
+- Modular.
+- Evolvable.
+- Secure.
+- Reliable.
+- Observable.
+- Testable.
+- Operationally sustainable.
 
----
-
-## Mission
-
-These architectural principles exist to:
-
-- Encourage sustainable software design.
-- Improve engineering consistency.
-- Reduce technical debt.
-- Support long-term maintainability.
-- Enable scalable system evolution.
-- Facilitate collaboration across engineering teams.
+Architecture SHALL support the system's actual requirements rather than optimizing for theoretical complexity.
 
 ---
-
-## Philosophy
-
-Architecture is considered a long-term engineering asset rather than a short-term implementation detail.
-
-Every architectural decision SHOULD improve the overall quality of the software system throughout its lifecycle.
-
----
-
-## Design Goals
-
-Architecture SHOULD maximize:
-
-- Simplicity.
-- Clarity.
-- Maintainability.
-- Scalability.
-- Testability.
-- Reliability.
-- Security.
-
----
-
-## Relationship to Other Standards
-
-This document complements:
-
-- CONTRIBUTING.md
-- STYLE_GUIDE.md
-- TESTING_STANDARD.md
-- COMMIT_CONVENTION.md
-- BRANCHING_STRATEGY.md
-- RELEASE_PROCESS.md
-- SECURITY.md
-
-Architectural decisions SHALL remain consistent with repository governance.
-
----
-
-## Expected Outcome
-
-Following these principles SHOULD produce software systems that are:
-
-- Easier to understand.
-- Easier to extend.
-- Easier to test.
-- Easier to maintain.
-- Better prepared for long-term evolution.
 
 # 2. Scope
 
-## Objective
-
-This document establishes the architectural principles governing software repositories maintained under the **AURA Engineering Standards**.
-
-It defines engineering expectations for designing, evolving, reviewing, and maintaining software architecture throughout the system lifecycle.
-
----
-
-## Applies To
-
-These principles apply to:
+This standard applies to:
 
 - Applications.
 - Services.
 - Libraries.
 - APIs.
-- Backend systems.
-- Frontend systems.
-- Internal tools.
-- Infrastructure software.
+- Data systems.
+- Infrastructure components.
+- Integration layers.
+- Internal platforms.
+- Major subsystems.
 
-Every software project SHOULD consider these principles during architecture planning.
-
----
-
-## Contributors
-
-This document applies to:
-
-- Software Architects.
-- Repository Maintainers.
-- Developers.
-- Technical Leads.
-- Engineering Managers.
-- External Contributors.
-
-Architectural consistency is considered a shared engineering responsibility.
+It applies to both new architecture and significant modifications to existing architecture.
 
 ---
 
-## Technology Independence
+# 3. Architectural Objectives
 
-These principles remain independent of:
+Architecture SHOULD optimize for the following properties:
 
-- Programming language.
-- Framework.
-- Runtime.
-- Deployment platform.
-- Cloud provider.
-- Database technology.
+```text
+Correctness
+Security
+Reliability
+Maintainability
+Testability
+Observability
+Scalability
+Performance
+Operability
+Evolvability
+```
 
-Architectural quality SHALL remain consistent regardless of implementation technology.
+These properties SHALL be evaluated according to system requirements.
 
----
+No single property SHALL automatically dominate all others.
 
-## Lifecycle Coverage
-
-These principles apply throughout:
-
-- System design.
-- Development.
-- Testing.
-- Deployment.
-- Maintenance.
-- Evolution.
-- Retirement.
-
-Architecture SHOULD support the complete software lifecycle.
+For example, maximum performance SHOULD NOT justify an architecture that is unnecessarily insecure or impossible to operate.
 
 ---
-
-## Exceptions
-
-Exceptional architectural decisions MAY occur when justified by engineering constraints.
-
-Significant deviations SHOULD be documented and reviewed according to repository governance.
-
-# 3. Architecture Philosophy
-
-## Objective
-
-Architecture provides the long-term structure upon which software systems evolve.
-
-Good architecture minimizes complexity while maximizing adaptability.
-
----
-
-## Engineering Perspective
-
-Architecture SHOULD support engineering teams rather than constrain them.
-
-Well-designed systems enable change with minimal disruption.
-
----
-
-## Simplicity
-
-Architectural simplicity SHOULD be preferred over unnecessary complexity.
-
-Complexity SHALL only exist when justified by measurable engineering benefit.
-
----
-
-## Long-Term Thinking
-
-Architectural decisions SHOULD consider:
-
-- Future maintenance.
-- Team scalability.
-- Operational reliability.
-- Technology evolution.
-
-Short-term convenience SHOULD NOT compromise long-term software quality.
-
----
-
-## Explicit Design
-
-Architectural decisions SHOULD remain:
-
-- Intentional.
-- Documented.
-- Reviewable.
-- Understandable.
-
-Implicit architecture often increases technical debt.
-
----
-
-## Continuous Evolution
-
-Architecture is expected to evolve alongside changing requirements.
-
-Evolution SHOULD remain controlled, documented, and consistent.
-
----
-
-## Technical Debt
-
-Architectural technical debt SHOULD remain:
-
-- Visible.
-- Measured.
-- Prioritized.
-- Managed.
-
-Uncontrolled technical debt reduces software quality over time.
 
 # 4. Core Principles
 
-## Objective
+AURA architecture SHALL follow these principles:
 
-The following principles define the architectural foundation expected across repositories governed by the **AURA Engineering Standards**.
-
----
-
-## Principle 1 — Simplicity
-
-Architectural solutions SHOULD remain as simple as practical.
-
-Complexity SHOULD only be introduced when justified.
-
----
-
-## Principle 2 — Maintainability
-
-Systems SHALL prioritize long-term maintainability over short-term implementation convenience.
-
----
-
-## Principle 3 — Scalability
-
-Architecture SHOULD support future growth without requiring unnecessary redesign.
-
----
-
-## Principle 4 — Reliability
-
-Software architecture SHALL promote predictable system behavior under expected operating conditions.
-
----
-
-## Principle 5 — Testability
-
-Architectural decisions SHOULD simplify automated and manual testing.
-
-Testable systems improve engineering confidence.
-
----
-
-## Principle 6 — Security
-
-Security SHALL be considered during architectural design rather than introduced afterward.
-
-Security considerations SHOULD remain integrated throughout system evolution.
-
----
-
-## Principle 7 — Modularity
-
-Software SHOULD consist of clearly separated modules with well-defined responsibilities.
-
----
-
-## Principle 8 — Explicit Boundaries
-
-Component responsibilities SHALL remain clearly defined.
-
-Well-defined boundaries improve maintainability and reduce unintended coupling.
-
----
-
-## Principle 9 — Continuous Improvement
-
-Architecture SHOULD evolve through incremental improvement rather than uncontrolled redesign.
-
-Engineering decisions SHOULD prioritize sustainable software evolution.
-
-# PART II — Architectural Principles
+1. **Clear Responsibility**
+2. **Explicit Boundaries**
+3. **Controlled Dependencies**
+4. **High Cohesion**
+5. **Low Unnecessary Coupling**
+6. **Stable Interfaces**
+7. **Explicit Data Ownership**
+8. **Failure Isolation**
+9. **Security by Design**
+10. **Observability by Design**
+11. **Testability**
+12. **Controlled Complexity**
+13. **Backward Compatibility**
+14. **Incremental Evolution**
+15. **Documented Significant Decisions**
 
 ---
 
 # 5. Separation of Concerns
 
-## Objective
+## Principle
 
-Software systems SHALL separate distinct responsibilities into independent architectural components.
-
-Each component SHOULD focus on a single area of responsibility.
-
----
-
-## Purpose
-
-Separating concerns reduces:
-
-- Complexity.
-- Maintenance effort.
-- Component dependencies.
-- Architectural coupling.
-
-It improves system clarity and long-term evolution.
-
----
-
-## Responsibilities
-
-Architectural responsibilities SHOULD remain clearly defined.
+Different architectural concerns SHALL be separated when combining them would create unnecessary coupling or complexity.
 
 Examples include:
 
-- Business Logic.
-- Data Access.
-- Presentation.
-- Infrastructure.
+```text
+Presentation
+Business Logic
+Persistence
+Infrastructure
+Authentication
+Authorization
+Messaging
+Observability
+Configuration
+```
+
+## Responsibility Boundaries
+
+A component SHOULD have a clearly identifiable primary responsibility.
+
+A component SHOULD NOT become a general-purpose container for unrelated functionality.
+
+## Cross-Cutting Concerns
+
+Cross-cutting concerns MAY span multiple components, but their implementation SHOULD remain consistent.
+
+Examples:
+
+- Logging.
+- Authentication.
+- Authorization.
+- Tracing.
 - Configuration.
-- Security.
+- Error handling.
 
-Mixing unrelated responsibilities SHOULD be avoided.
+## Separation Does Not Mean Fragmentation
 
----
+Architecture SHOULD NOT create artificial components solely to satisfy theoretical separation.
 
-## Benefits
+The separation must provide measurable value through:
 
-Proper separation improves:
-
-- Maintainability.
-- Testability.
-- Reusability.
-- Scalability.
-
----
-
-## Evolution
-
-Individual concerns SHOULD evolve independently whenever practical.
-
-Changes within one concern SHOULD minimize impact on others.
+- Reduced coupling.
+- Improved testability.
+- Clear ownership.
+- Independent evolution.
+- Reduced operational risk.
 
 ---
-
-## Expected Outcome
-
-Systems following Separation of Concerns remain easier to understand, review, and extend.
 
 # 6. Modularity
 
-## Objective
+## Principle
 
-Software SHALL be organized into modular units with clearly defined responsibilities and interfaces.
+Systems SHOULD be composed of modules with clear responsibilities and controlled interfaces.
 
-Modules SHOULD remain independently understandable and maintainable.
+## Module Characteristics
 
----
+A well-defined module SHOULD have:
 
-## Characteristics
+- A clear purpose.
+- Explicit inputs.
+- Explicit outputs.
+- Encapsulated implementation.
+- Controlled dependencies.
+- Testable behavior.
 
-A module SHOULD:
+## Module Independence
 
-- Solve one logical problem.
-- Expose a clear interface.
-- Hide internal implementation.
-- Minimize external dependencies.
+Modules SHOULD be independently understandable.
 
----
+A module SHOULD NOT require knowledge of unrelated internal implementation details.
 
-## Independence
+## Module Size
 
-Modules SHOULD remain independently developable whenever practical.
+There is no universal optimal module size.
 
-Changes within one module SHOULD minimize effects on unrelated modules.
+Module boundaries SHOULD be determined by:
 
----
-
-## Reusability
-
-Modular design SHOULD encourage reuse across repositories and services.
-
-Reusable modules reduce duplicated engineering effort.
-
----
-
-## Documentation
-
-Module responsibilities SHOULD remain documented and understandable.
-
-Well-defined modules simplify onboarding and maintenance.
-
----
-
-## Expected Outcome
-
-Modular systems improve:
-
-- Scalability.
-- Maintainability.
-- Engineering productivity.
-
-# 7. High Cohesion
-
-## Objective
-
-Components SHOULD group closely related responsibilities together.
-
-High cohesion improves software quality by keeping responsibilities logically connected.
-
----
-
-## Characteristics
-
-Highly cohesive components:
-
-- Solve one problem.
-- Perform related operations.
-- Share common data.
-- Evolve together.
-
----
-
-## Benefits
-
-High cohesion improves:
-
-- Readability.
-- Maintainability.
+- Responsibility.
+- Change frequency.
+- Ownership.
+- Dependency relationships.
 - Testability.
-- Predictability.
+- Deployment requirements.
+
+## Over-Modularization
+
+Creating excessive modules SHOULD be avoided.
+
+Warning signs include:
+
+```text
+Too many trivial abstractions
+Excessive indirection
+Frequent cross-module calls
+Difficulty tracing simple execution paths
+High configuration overhead
+```
 
 ---
 
-## Design Guidance
+# 7. Dependency Direction
 
-When unrelated functionality appears within one component, architectural redesign SHOULD be considered.
+## Principle
 
----
+Dependencies SHALL follow deliberate architectural direction.
 
-## Long-Term Value
+Higher-level business or domain logic SHOULD NOT become unnecessarily dependent on low-level infrastructure implementation details.
 
-Highly cohesive systems remain easier to extend without introducing unnecessary complexity.
+## Dependency Inversion
 
----
+Where appropriate, stable abstractions SHOULD be used to isolate higher-level logic from volatile infrastructure details.
 
-## Expected Outcome
+Example:
 
-Every component SHOULD represent one clearly identifiable engineering responsibility.
+```text
+Business Logic
+      ↓
+Stable Interface
+      ↓
+Infrastructure Implementation
+```
 
-# 8. Loose Coupling
+rather than:
 
-## Objective
+```text
+Business Logic
+      ↓
+Concrete Database / Vendor SDK
+```
 
-Architectural components SHOULD minimize unnecessary dependencies upon one another.
+## Dependency Graph
 
-Reducing coupling improves flexibility and long-term maintainability.
+Architecture SHOULD avoid unnecessary circular dependencies.
 
----
+Circular dependencies SHALL be treated as architectural defects unless explicitly justified.
 
-## Dependency Management
+## Dependency Stability
 
-Components SHOULD communicate through:
-
-- Stable interfaces.
-- Well-defined contracts.
-- Explicit dependencies.
-
-Internal implementation details SHOULD remain hidden.
-
----
-
-## Architectural Benefits
-
-Loose coupling enables:
-
-- Independent evolution.
-- Easier testing.
-- Improved scalability.
-- Safer refactoring.
+Stable components SHOULD NOT depend unnecessarily on highly volatile components.
 
 ---
 
-## Change Isolation
+# 8. Coupling and Cohesion
 
-Changes inside one component SHOULD require minimal modifications elsewhere.
+## Low Unnecessary Coupling
 
----
+Components SHOULD minimize unnecessary knowledge of other components.
 
-## Avoid
+A component SHOULD depend on contracts rather than internal implementation details.
 
-Architectures SHOULD avoid:
+## High Cohesion
 
-- Circular dependencies.
-- Hidden dependencies.
+Related behavior SHOULD remain together when doing so improves comprehension and consistency.
+
+## Coupling Indicators
+
+Architects SHOULD review:
+
 - Shared mutable state.
-- Tight implementation coupling.
+- Direct database access across boundaries.
+- Internal implementation imports.
+- Circular dependencies.
+- Excessive event coupling.
+- Shared configuration assumptions.
+- Hidden runtime dependencies.
+
+## Distributed Coupling
+
+Distributed systems introduce additional forms of coupling:
+
+```text
+Network
+Timing
+Availability
+Schema
+Version
+Deployment
+Operational
+```
+
+These SHALL be considered when designing service boundaries.
 
 ---
 
-## Expected Outcome
+# 9. Single Responsibility
 
-Systems with loose coupling remain more adaptable as requirements evolve.
+## Principle
 
-# 9. Dependency Inversion
+A component SHOULD have one primary reason to change.
 
-## Objective
+## Responsibility Scope
 
-High-level architectural components SHOULD depend upon abstractions rather than concrete implementations.
+Single Responsibility does NOT mean:
 
-This principle improves flexibility and testability.
+```text
+One class = one function
+```
 
----
+It means that the responsibilities within a component belong to a coherent change boundary.
 
-## Architectural Rule
+## Violation Indicators
 
-Dependencies SHOULD point toward stable abstractions.
+Potential violations include components that simultaneously handle:
 
-Implementation details SHOULD depend upon architectural contracts.
+- Business rules.
+- Database access.
+- HTTP transport.
+- Authentication.
+- External integrations.
+- Rendering.
+- Infrastructure orchestration.
 
----
-
-## Benefits
-
-Dependency Inversion improves:
-
-- Testability.
-- Modularity.
-- Maintainability.
-- Replaceability.
-
----
-
-## Implementation
-
-Repositories MAY implement abstractions using:
-
-- Interfaces.
-- Contracts.
-- Service definitions.
-- Dependency Injection.
-
-Implementation technology remains repository specific.
-
----
-
-## Evolution
-
-Concrete implementations SHOULD remain replaceable without modifying higher-level architectural components.
-
----
-
-## Expected Outcome
-
-Architectural stability increases when abstractions remain independent from implementation details.
-
-# 10. Single Responsibility
-
-## Objective
-
-Every architectural component SHOULD have one primary reason to change.
-
-Responsibilities SHOULD remain focused and clearly defined.
-
----
-
-## Architectural Perspective
-
-A component SHOULD represent one business capability or engineering responsibility.
-
-Multiple unrelated responsibilities SHOULD be separated.
-
----
-
-## Benefits
-
-Single Responsibility improves:
-
-- Readability.
-- Maintainability.
-- Testing.
-- Refactoring.
-
----
-
-## Change Management
-
-When unrelated changes frequently affect the same component, architectural redesign SHOULD be considered.
-
----
-
-## Repository Health
-
-Components with single responsibilities remain easier to review and evolve.
-
----
-
-## Expected Outcome
-
-Architectural complexity decreases as component responsibilities become more focused.
-
-# 11. Scalability
-
-## Objective
-
-Architecture SHOULD support future growth without requiring unnecessary redesign.
-
-Scalability SHALL be considered throughout system evolution.
-
----
-
-## Growth Dimensions
-
-Architecture SHOULD accommodate growth in:
-
-- Users.
-- Data.
-- Services.
-- Traffic.
-- Repository size.
-- Engineering teams.
-
----
-
-## Design Considerations
-
-Scalable architecture SHOULD encourage:
-
-- Horizontal expansion.
-- Modular growth.
-- Independent deployment.
-- Resource efficiency.
-
----
-
-## Avoid
-
-Architectures SHOULD avoid assumptions that unnecessarily restrict future growth.
-
----
-
-## Continuous Evaluation
-
-Scalability SHOULD be reviewed periodically as repository requirements evolve.
-
----
-
-## Expected Outcome
-
-Architectural scalability improves long-term software sustainability.
-
-# 12. Maintainability
-
-## Objective
-
-Architecture SHALL prioritize ease of long-term maintenance.
-
-Maintainable systems reduce engineering cost throughout the software lifecycle.
-
----
-
-## Maintainability Factors
-
-Architecture SHOULD encourage:
-
-- Readability.
-- Consistency.
-- Documentation.
-- Predictable structure.
-- Modular organization.
-
----
-
-## Technical Debt
-
-Architectural technical debt SHOULD remain:
-
-- Visible.
-- Controlled.
-- Prioritized.
-- Continuously reduced.
-
----
-
-## Engineering Benefits
-
-Maintainable architecture improves:
-
-- Bug fixing.
-- Feature development.
-- Refactoring.
-- Onboarding.
-
----
-
-## Expected Outcome
-
-Architectural maintenance SHOULD become progressively easier rather than increasingly difficult.
-
-
-# 13. Security by Design
-
-## Objective
-
-Security SHALL be incorporated during architectural design rather than introduced after implementation.
-
-Architectural decisions directly influence software security.
-
----
-
-## Design Principles
-
-Architecture SHOULD:
-
-- Minimize attack surface.
-- Isolate sensitive components.
-- Enforce clear trust boundaries.
-- Protect confidential information.
-- Reduce unnecessary privileges.
-
----
-
-## Risk Reduction
-
-Architectural security SHOULD reduce:
-
-- Unauthorized access.
-- Data exposure.
-- Privilege escalation.
-- Dependency risks.
-
----
-
-## Integration
-
-Security considerations SHOULD remain integrated with:
-
-- Architecture reviews.
-- Design decisions.
-- Release planning.
-- Repository governance.
-
----
-
-## Continuous Improvement
-
-Architectural security SHOULD evolve alongside emerging threats and repository maturity.
-
----
-
-## Expected Outcome
-
-Security becomes an inherent property of the software architecture rather than an additional feature.
-
-# PART III — Engineering Practices
-
----
-
-# 14. Performance by Design
-
-## Objective
-
-Performance SHALL be considered during architectural design rather than addressed only after implementation.
-
-Architectural decisions significantly influence system responsiveness, scalability, and operational efficiency.
-
----
-
-## Design Principles
-
-Architecture SHOULD minimize:
-
-- Unnecessary computation.
-- Redundant communication.
-- Resource contention.
-- Latency.
-- Memory overhead.
-
----
-
-## Scalability
-
-Performance optimization SHOULD preserve architectural maintainability.
-
-Premature optimization SHOULD be avoided unless supported by measurable evidence.
-
----
-
-## Measurement
-
-Performance improvements SHOULD be based upon:
-
-- Benchmarks.
-- Profiling.
-- Monitoring.
-- Production metrics.
-
-Engineering assumptions alone SHOULD NOT justify optimization.
-
----
-
-## Expected Outcome
-
-Performance-aware architecture improves long-term operational efficiency while preserving software quality.
-
-# 15. Fail Fast
-
-## Objective
-
-Systems SHOULD detect invalid conditions as early as possible.
-
-Early failure reduces hidden defects and simplifies debugging.
-
----
-
-## Principles
-
-Architectural components SHOULD:
-
-- Validate assumptions.
-- Detect invalid input.
-- Reject inconsistent state.
-- Surface errors immediately.
-
----
-
-## Error Visibility
-
-Failures SHOULD remain observable.
-
-Silent failures SHOULD be avoided whenever practical.
-
----
-
-## Recovery
-
-Failing fast does NOT eliminate recovery.
-
-Recovery strategies SHOULD begin after failures are detected.
-
----
-
-## Expected Outcome
-
-Early detection improves engineering confidence and system reliability.
-
-# 16. Explicit Boundaries
-
-## Objective
-
-Architectural boundaries SHALL clearly define ownership and interaction rules between components.
-
----
-
-## Boundary Definition
-
-Every component SHOULD expose:
-
-- Clear responsibilities.
-- Stable interfaces.
-- Limited visibility.
-- Controlled communication.
-
----
-
-## Benefits
-
-Explicit boundaries improve:
-
-- Isolation.
-- Testability.
-- Security.
-- Maintainability.
-
----
-
-## Cross-Boundary Communication
-
-Communication SHOULD occur only through documented interfaces.
-
-Direct access to internal implementation SHOULD be avoided.
-
----
-
-## Expected Outcome
-
-Clear boundaries simplify long-term system evolution.
-
-# 17. Stateless Services
-
-## Objective
-
-Services SHOULD remain stateless whenever practical.
-
-Stateless architecture improves scalability, deployment flexibility, and fault tolerance.
-
----
-
-## Characteristics
-
-Stateless services SHOULD:
-
-- Avoid persistent internal session state.
-- Store shared state externally.
-- Process requests independently.
-
----
-
-## Benefits
-
-Stateless design enables:
-
-- Horizontal scaling.
-- Simpler deployments.
-- Easier recovery.
-- Load balancing.
-
----
-
-## Exceptions
-
-Stateful architecture MAY be appropriate when justified by documented engineering requirements.
-
----
-
-## Expected Outcome
-
-Stateless services improve operational simplicity and scalability.
-
-# 18. Configuration Management
-
-## Objective
-
-Configuration SHALL remain external to application logic whenever practical.
-
-Architecture SHOULD separate configuration from implementation.
-
----
-
-## Configuration Principles
-
-Configuration SHOULD be:
-
-- Version controlled when appropriate.
-- Environment specific.
-- Clearly documented.
-- Easily replaceable.
-
----
-
-## Sensitive Data
-
-Secrets SHALL NOT be hardcoded.
-
-Sensitive configuration SHOULD use secure secret management solutions.
-
----
-
-## Consistency
-
-Configuration SHOULD remain reproducible across environments.
-
----
-
-## Expected Outcome
-
-Externalized configuration improves portability and deployment consistency.
-
-# 19. Error Handling
-
-## Objective
-
-Architectural error handling SHALL remain consistent throughout the system.
-
----
-
-## Error Classification
-
-Systems SHOULD distinguish between:
-
-- Recoverable errors.
-- Non-recoverable errors.
-- User errors.
-- Infrastructure failures.
-- Internal defects.
-
----
-
-## Error Reporting
-
-Errors SHOULD provide:
-
-- Sufficient diagnostic information.
-- Consistent formatting.
-- Traceability.
-- Appropriate severity.
-
-Sensitive implementation details SHOULD NOT be exposed.
-
----
-
-## Logging
-
-Architectural logging SHOULD support:
-
-- Monitoring.
-- Troubleshooting.
-- Incident response.
-- Operational analysis.
-
----
-
-## Expected Outcome
-
-Consistent error handling improves software reliability and operational support.
-
-# 20. Evolution Strategy
-
-## Objective
-
-Architecture SHALL support controlled software evolution throughout the system lifecycle.
-
----
-
-## Incremental Evolution
-
-Architectural improvement SHOULD occur through incremental refinement rather than unnecessary redesign.
-
----
-
-## Backward Compatibility
-
-When practical, architectural evolution SHOULD preserve compatibility with existing consumers.
-
----
+without clear separation.
 
 ## Refactoring
 
-Architecture SHOULD encourage continuous refactoring that improves maintainability without altering intended behavior.
+When responsibility boundaries become unclear, the architecture SHOULD be refactored before complexity becomes difficult to reverse.
 
 ---
 
-## Documentation
+# PART II — System Structure
 
-Significant architectural changes SHOULD remain documented through appropriate repository governance.
+# 10. Boundary Definition
 
-Examples include:
+## Principle
 
-- ADRs.
-- RFCs.
-- Release Notes.
+Architectural boundaries SHALL be explicit enough to define:
 
----
-
-## Long-Term Sustainability
-
-Architectural decisions SHOULD favor sustainable engineering practices over short-term implementation convenience.
-
----
-
-## Expected Outcome
-
-Controlled evolution allows software to adapt to changing requirements while preserving architectural integrity.
-
-# PART IV — Governance
-
----
-
-# 21. Review Checklist
-
-## Objective
-
-Architectural changes SHALL undergo appropriate engineering review before implementation or integration.
-
-The review process exists to ensure that architectural decisions remain consistent, justified, maintainable, and aligned with repository requirements.
-
----
-
-## Architectural Review
-
-Reviewers SHOULD verify:
-
-- Clear problem definition.
-- Explicit architectural objective.
-- Appropriate component boundaries.
-- Clear ownership of responsibilities.
-- Minimal unnecessary coupling.
-- Appropriate dependency direction.
-- Sufficient scalability considerations.
-- Security considerations.
-
----
-
-## Engineering Standards
-
-Reviewers SHOULD confirm consistency with:
-
-- STYLE_GUIDE.md
-- TESTING_STANDARD.md
-- SECURITY.md
-- BRANCHING_STRATEGY.md
-- RELEASE_PROCESS.md
-- RFC_TEMPLATE.md
-- ADR_TEMPLATE.md
-
----
-
-## Design Quality
-
-Reviewers SHOULD evaluate:
-
-- Simplicity.
-- Modularity.
-- Cohesion.
-- Coupling.
-- Testability.
-- Observability.
+- Responsibility.
+- Ownership.
+- Allowed dependencies.
+- Data access.
+- Interface behavior.
 - Failure behavior.
-- Operational impact.
+- Security boundaries.
 
----
+## Boundary Types
 
-## Long-Term Impact
+A system MAY contain boundaries between:
 
-Architectural decisions SHOULD be evaluated beyond their immediate implementation cost.
+```text
+Modules
+Domains
+Services
+Processes
+Databases
+External Systems
+Trust Zones
+Deployment Units
+```
 
-Reviewers SHOULD consider:
+## Boundary Quality
 
-- Future maintenance.
-- Team growth.
-- Technology changes.
-- Operational complexity.
-- Migration requirements.
-- Technical debt.
+A boundary SHOULD be evaluated by the questions:
 
----
+```text
+What belongs inside?
+What belongs outside?
+Who owns it?
+How can consumers interact with it?
+What assumptions cross the boundary?
+What happens when the boundary fails?
+```
 
-## Approval
+If these questions cannot be answered, the boundary is likely underspecified.
 
-Significant architectural changes SHOULD receive approval from the appropriate Architecture Owner or Repository Maintainer before implementation.
+## Business Boundaries
 
----
+Business domains SHOULD be separated when they have materially different:
 
-## Expected Outcome
+- Responsibilities.
+- Change rates.
+- Ownership.
+- Data models.
+- Security requirements.
+- Operational characteristics.
 
-Architectural review SHOULD provide reasonable confidence that the proposed design improves or preserves overall system quality.
+## Technical Boundaries
 
-# 22. Exceptions
+Technical boundaries MAY be introduced to isolate:
 
-## Objective
+- Infrastructure.
+- Persistence.
+- External integrations.
+- Messaging.
+- Compute-intensive workloads.
+- Security-sensitive functionality.
 
-Architectural principles establish default engineering expectations.
+## Boundary Leakage
 
-Exceptional circumstances MAY require deviations when strict adherence would create disproportionate engineering cost, operational risk, or incompatibility.
-
----
-
-## Acceptable Exceptions
+A component SHALL NOT expose internal implementation details merely for convenience.
 
 Examples include:
 
-- Legacy system constraints.
-- Third-party integration requirements.
-- Regulatory requirements.
-- Performance-critical implementations.
-- Emergency production remediation.
-- Technology limitations.
-- Migration constraints.
-
-Convenience alone SHOULD NOT justify architectural deviation.
+```text
+Exposing database models as public API contracts
+Allowing consumers to mutate internal state
+Requiring callers to know storage implementation
+Exposing vendor-specific types unnecessarily
+```
 
 ---
 
-## Documentation
+# 11. Interface Design
 
-Significant architectural exceptions SHOULD document:
+## Principle
 
-- The violated principle.
-- Engineering justification.
-- Scope of the exception.
-- Expected impact.
-- Risk assessment.
-- Alternative approaches considered.
-- Exit or review criteria when applicable.
+Interfaces SHALL define stable interaction contracts between architectural components.
+
+## Explicit Contracts
+
+An interface SHOULD make clear:
+
+- Inputs.
+- Outputs.
+- Errors.
+- Preconditions.
+- Postconditions.
+- Side effects.
+- Version expectations.
+
+## Interface Stability
+
+Interfaces SHOULD remain stable even when internal implementations evolve.
+
+## Contract Ownership
+
+Every material interface SHOULD have an identifiable owner.
+
+## Internal Interfaces
+
+Internal interfaces MAY be less stable than public interfaces, but their intended usage SHOULD still be clear.
+
+## Public Interfaces
+
+Public interfaces SHALL receive additional consideration for:
+
+- Compatibility.
+- Versioning.
+- Security.
+- Documentation.
+- Error behavior.
+- Deprecation.
+
+## Interface Leakage
+
+Interfaces SHOULD NOT expose implementation details that unnecessarily constrain future architecture.
+
+## Vendor Abstraction
+
+Vendor-specific interfaces SHOULD be isolated when the system has a realistic requirement to change vendors or support multiple implementations.
+
+Abstraction SHALL NOT be introduced solely for theoretical future flexibility.
 
 ---
 
-## Approval
+# 12. Abstraction
 
-Significant exceptions SHOULD be reviewed by:
+## Principle
 
-- Architecture Owners.
-- Repository Maintainers.
-- Security Owners when security is affected.
+Abstractions SHALL exist to isolate meaningful variation or complexity.
+
+## Useful Abstraction
+
+An abstraction is justified when it:
+
+- Protects a stable business concept.
+- Isolates infrastructure.
+- Encapsulates meaningful variation.
+- Reduces repeated complexity.
+- Defines a stable contract.
+
+## Premature Abstraction
+
+Premature abstraction SHOULD be avoided.
+
+Warning signs include:
+
+```text
+Interfaces with one implementation
+Generic frameworks for one use case
+Unused extension points
+Multiple layers forwarding calls without adding behavior
+```
+
+## Abstraction Cost
+
+Every abstraction introduces:
+
+- Indirection.
+- Cognitive overhead.
+- Maintenance cost.
+- Debugging cost.
+
+The value of an abstraction SHOULD exceed these costs.
+
+## Leaky Abstractions
+
+An abstraction SHOULD NOT claim to hide a detail while requiring consumers to understand that same detail.
 
 ---
 
-## Temporary Exceptions
+# 13. Data Ownership
 
-Temporary exceptions SHOULD include an expected review or removal condition.
+## Principle
 
-Technical debt introduced by an exception SHOULD remain visible and tracked.
+Every material data domain SHALL have a clearly defined owner.
+
+## Ownership Responsibilities
+
+The owner SHOULD define:
+
+- Data meaning.
+- Schema.
+- Validation.
+- Lifecycle.
+- Access rules.
+- Retention.
+- Modification authority.
+
+## Single Ownership
+
+A logical data entity SHOULD have one authoritative owner.
+
+Multiple systems MAY maintain derived copies, caches, or projections.
+
+## Derived Data
+
+Derived data SHOULD be distinguishable from authoritative data.
+
+Example:
+
+```text
+Source of Truth
+      ↓
+Derived Projection
+      ↓
+Cache / Search Index / Report
+```
+
+## Shared Databases
+
+Sharing a database between independently owned domains SHOULD be avoided when it creates hidden coupling.
+
+If unavoidable, ownership and access boundaries SHALL be explicit.
+
+## Data Mutation
+
+Components SHOULD NOT modify data owned by another domain directly without using an approved interface or contract.
 
 ---
 
-## Governance
+# 14. State Management
 
-Exceptions SHALL NOT silently redefine the architectural standard.
+## Principle
 
-Repeated exceptions SHOULD trigger a review of the underlying principle or system architecture.
+State SHALL have an explicit owner and lifecycle.
 
-# 23. Related Documents
+## State Categories
 
-This document forms part of the **AURA Engineering Standards** framework.
+State MAY include:
 
-Related documents include:
+```text
+Persistent State
+Session State
+Cache State
+Derived State
+Ephemeral State
+Distributed State
+Configuration State
+```
 
-- README.md
-- CONTRIBUTING.md
-- STYLE_GUIDE.md
-- TESTING_STANDARD.md
-- COMMIT_CONVENTION.md
-- BRANCHING_STRATEGY.md
-- RELEASE_PROCESS.md
-- SECURITY.md
-- CODE_OF_CONDUCT.md
-- RFC_TEMPLATE.md
-- ADR_TEMPLATE.md
-- PR_TEMPLATE.md
+## State Ownership
 
-Future companion standards MAY include:
+The architecture SHOULD identify:
 
-- API_DESIGN_STANDARD.md
-- DEPENDENCY_POLICY.md
-- OBSERVABILITY_STANDARD.md
-- CHANGELOG.md
+- Who creates state.
+- Who modifies it.
+- Who reads it.
+- How it expires.
+- How it is recovered.
 
-Architectural guidance SHOULD remain consistent with these documents.
+## Mutable Shared State
 
-Where responsibilities overlap, the more specific engineering standard SHOULD govern the implementation detail while remaining consistent with the architectural principles defined here.
+Uncontrolled shared mutable state SHOULD be avoided.
 
-# 24. Versioning
+It increases:
 
-## Version Policy
+- Coupling.
+- Race conditions.
+- Testing complexity.
+- Failure propagation.
+
+## Distributed State
+
+Distributed state SHALL account for:
+
+- Consistency.
+- Availability.
+- Failure.
+- Synchronization.
+- Recovery.
+- Concurrency.
+
+## Cache State
+
+Caches SHALL NOT silently become the authoritative source of truth unless explicitly designed as such.
+
+---
+
+# 15. Configuration
+
+## Principle
+
+Configuration SHALL be separated from application logic where practical.
+
+## Configuration Sources
+
+Configuration MAY originate from:
+
+- Environment variables.
+- Configuration files.
+- Secret managers.
+- Deployment systems.
+- Runtime configuration services.
+
+## Secrets
+
+Secrets SHALL NOT be hard-coded into source code or architecture artifacts.
+
+## Configuration Validation
+
+Configuration SHOULD be validated at startup or before use.
+
+Invalid required configuration SHOULD fail fast.
+
+## Defaults
+
+Defaults SHOULD be:
+
+- Explicit.
+- Safe.
+- Documented.
+- Appropriate for the environment.
+
+Dangerous defaults SHOULD NOT be silently applied.
+
+## Environment Differences
+
+Architecture SHOULD minimize environment-specific code.
+
+Environment-specific behavior SHOULD generally be represented through configuration rather than duplicated implementations.
+
+---
+
+# 16. Extensibility
+
+## Principle
+
+Systems SHOULD support extension where meaningful future variation is reasonably foreseeable.
+
+## Extension Points
+
+Extension mechanisms MAY include:
+
+```text
+Interfaces
+Plugins
+Adapters
+Events
+Configuration
+Strategy Objects
+Providers
+```
+
+## Avoid Speculative Extensibility
+
+Architecture SHOULD NOT introduce complex extension mechanisms for hypothetical requirements with no credible evidence.
+
+## Stable Extension
+
+Extension points SHOULD be designed around stable concepts rather than volatile implementation details.
+
+## Compatibility
+
+Adding an extension SHOULD NOT unexpectedly break existing consumers.
+
+---
+
+# 17. Scalability
+
+## Principle
+
+Scalability SHALL be driven by actual requirements and measured system behavior.
+
+## Scaling Dimensions
+
+Architecture MAY need to scale across:
+
+```text
+Requests
+Users
+Data
+Storage
+Compute
+Network
+Geographic Distribution
+Teams
+Deployments
+```
+
+## Horizontal Scaling
+
+Stateless components SHOULD be preferred when horizontal scaling provides meaningful value.
+
+## Vertical Scaling
+
+Vertical scaling MAY be appropriate when it provides a simpler and more reliable architecture.
+
+## Bottlenecks
+
+Known bottlenecks SHOULD be identified before introducing complex scaling mechanisms.
+
+## Capacity
+
+Capacity planning SHOULD consider:
+
+- Expected load.
+- Peak load.
+- Growth.
+- Failure conditions.
+- Resource limits.
+
+## Scaling Complexity
+
+A more scalable architecture is NOT automatically a better architecture.
+
+Scaling mechanisms SHALL be justified by actual requirements.
+
+---
+
+# PART III — Reliability, Security, and Evolution
+
+# 18. Reliability
+
+## Principle
+
+Architecture SHALL explicitly consider expected failure modes.
+
+## Reliability Characteristics
+
+Systems SHOULD define appropriate expectations for:
+
+- Availability.
+- Durability.
+- Recovery.
+- Consistency.
+- Fault tolerance.
+
+## Failure as a Normal Condition
+
+Distributed systems SHALL assume that:
+
+```text
+Networks fail
+Processes crash
+Dependencies become unavailable
+Requests time out
+Resources become exhausted
+Data becomes inconsistent
+```
+
+Architecture SHALL account for these conditions.
+
+## Reliability Boundaries
+
+Critical failures SHOULD be contained so that a failure in one component does not unnecessarily terminate unrelated functionality.
+
+---
+
+# 19. Failure Isolation
+
+## Principle
+
+Failures SHOULD be isolated wherever practical.
+
+## Failure Domains
+
+Architecture SHOULD identify:
+
+- Process failure domains.
+- Service failure domains.
+- Infrastructure failure domains.
+- Data failure domains.
+- Dependency failure domains.
+
+## Cascading Failures
+
+Systems SHOULD prevent cascading failure through appropriate mechanisms such as:
+
+```text
+Timeouts
+Retries
+Circuit Breakers
+Bulkheads
+Rate Limits
+Backpressure
+Queue Isolation
+Resource Limits
+```
+
+These mechanisms SHALL be applied deliberately rather than mechanically.
+
+## Retry Safety
+
+Retries SHOULD only be used when the operation is safe to retry or has appropriate idempotency guarantees.
+
+## Graceful Degradation
+
+Where appropriate, systems SHOULD degrade functionality rather than fail completely.
+
+---
+
+# 20. Security by Design
+
+## Principle
+
+Security SHALL be considered during architectural design rather than added only after implementation.
+
+## Trust Boundaries
+
+Architecture SHALL identify important trust boundaries.
+
+Examples:
+
+```text
+User → Application
+Application → Database
+Application → External API
+Service → Service
+CI → Production
+```
+
+## Least Privilege
+
+Components SHOULD receive only the permissions required to perform their responsibilities.
+
+## Authentication and Authorization
+
+Authentication and authorization responsibilities SHOULD be explicit.
+
+Authorization SHALL NOT be inferred merely from authentication.
+
+## Input Boundaries
+
+Untrusted input SHALL be treated as untrusted until validated.
+
+## Secrets
+
+Secret storage and access SHALL be explicitly designed.
+
+Secrets SHOULD be handled through appropriate secret-management mechanisms.
+
+## Security Dependencies
+
+Security-sensitive dependencies SHOULD be isolated and monitored according to `DEPENDENCY_POLICY.md`.
+
+## Security Failure
+
+Security failures SHALL fail safely and SHOULD NOT silently bypass security controls.
+
+---
+
+# 21. Observability by Design
+
+## Principle
+
+Systems SHALL be designed so that material operational behavior can be observed.
+
+## Observability Signals
+
+Where applicable, systems SHOULD provide:
+
+```text
+Logs
+Metrics
+Traces
+Events
+Health Signals
+Audit Records
+```
+
+## Correlation
+
+Distributed operations SHOULD provide sufficient correlation information to trace related activity.
+
+## Operational Context
+
+Observability SHOULD expose enough context to answer:
+
+```text
+What happened?
+When did it happen?
+Where did it happen?
+Which component was involved?
+Which request or operation was involved?
+What failed?
+What was the impact?
+```
+
+## Observability and Architecture
+
+Observability SHOULD NOT depend on invasive access to internal implementation details.
+
+## Sensitive Data
+
+Observability mechanisms SHALL avoid unnecessary exposure of:
+
+- Passwords.
+- Tokens.
+- Secrets.
+- Sensitive personal data.
+
+---
+
+# 22. Performance
+
+## Principle
+
+Performance requirements SHALL be based on measurable system requirements.
+
+## Performance Dimensions
+
+Architecture MAY need to consider:
+
+- Latency.
+- Throughput.
+- Resource utilization.
+- Startup time.
+- Memory usage.
+- Storage performance.
+- Network overhead.
+
+## Measurement
+
+Performance assumptions SHOULD be validated through measurement.
+
+## Premature Optimization
+
+Architecture SHOULD NOT become significantly more complex solely to optimize unmeasured theoretical bottlenecks.
+
+## Critical Paths
+
+Critical execution paths SHOULD be identified where performance requirements are material.
+
+## Resource Limits
+
+Architecture SHOULD account for resource constraints and failure behavior under exhaustion.
+
+---
+
+# 23. Backward Compatibility
+
+## Principle
+
+Changes SHOULD preserve compatibility unless a breaking change is explicitly justified.
+
+## Compatibility Types
+
+Compatibility MAY include:
+
+```text
+API Compatibility
+Schema Compatibility
+Data Compatibility
+Protocol Compatibility
+Configuration Compatibility
+Deployment Compatibility
+Operational Compatibility
+```
+
+## Breaking Changes
+
+Breaking changes SHALL:
+
+- Be explicitly identified.
+- Have a migration strategy where required.
+- Be communicated to affected consumers.
+- Follow the applicable release process.
+
+## Deprecation
+
+Features SHOULD generally be deprecated before removal when consumers require migration time.
+
+## Data Migration
+
+Schema or data changes SHALL consider existing data and rollback or recovery requirements.
+
+---
+
+# 24. Evolutionary Architecture
+
+## Principle
+
+Architecture SHALL support controlled evolution.
+
+AURA architecture SHOULD be designed so that important changes can be introduced incrementally rather than requiring unnecessary system-wide rewrites.
+
+## Incremental Change
+
+Preferred mechanisms include:
+
+```text
+Backward-compatible interfaces
+Feature flags
+Adapters
+Migration layers
+Versioned contracts
+Dual-read / dual-write strategies
+Gradual rollout
+```
+
+These mechanisms SHOULD only be used when their complexity is justified.
+
+## Architectural Fitness
+
+Architecture SHOULD be periodically evaluated against:
+
+- Current requirements.
+- Actual load.
+- Operational experience.
+- Security posture.
+- Development velocity.
+- Failure history.
+
+## Architecture Debt
+
+Material architectural debt SHOULD be:
+
+- Identified.
+- Owned.
+- Prioritized.
+- Tracked.
+
+## Avoid Permanent Migration Layers
+
+Temporary compatibility layers SHOULD have an explicit removal condition.
+
+A migration mechanism without a removal plan risks becoming permanent architecture.
+
+---
+
+# 25. Architecture Decisions
+
+## Principle
+
+Significant architectural decisions SHALL be explicitly recorded.
+
+## Significant Decision Criteria
+
+A decision SHOULD be considered significant when it materially affects:
+
+- System boundaries.
+- Data ownership.
+- Public interfaces.
+- Security.
+- Reliability.
+- Scalability.
+- Major dependencies.
+- Deployment topology.
+- Long-term maintenance cost.
+
+## Decision Record
+
+A significant decision SHOULD record:
+
+```text
+Context
+Problem
+Options
+Decision
+Consequences
+Alternatives Rejected
+Migration / Follow-up
+```
+
+---
+
+# 26. RFC and ADR Relationship
+
+## RFC
+
+An RFC represents a proposed architectural or technical change.
+
+Typical lifecycle:
+
+```text
+Problem
+  ↓
+Proposal
+  ↓
+Alternatives
+  ↓
+Review
+  ↓
+Decision
+```
+
+## ADR
+
+An ADR records the accepted architectural decision.
+
+Typical relationship:
+
+```text
+RFC
+ ↓
+Review
+ ↓
+Decision
+ ↓
+ADR
+ ↓
+Implementation
+```
+
+## Not Every RFC Becomes an ADR
+
+A rejected or abandoned proposal MAY remain as historical documentation without becoming an accepted ADR.
+
+## ADR Status
+
+ADRs SHOULD clearly indicate whether they are:
+
+```text
+Proposed
+Accepted
+Superseded
+Deprecated
+Rejected
+```
+
+---
+
+# 27. Architecture Review
+
+## Review Triggers
+
+Architecture review SHOULD occur when changes materially affect:
+
+- System boundaries.
+- Public APIs.
+- Data ownership.
+- Security boundaries.
+- Deployment topology.
+- Reliability.
+- Major dependencies.
+- Scalability strategy.
+
+## Review Questions
+
+Reviewers SHOULD ask:
+
+```text
+Is the responsibility clear?
+Are boundaries explicit?
+Are dependencies controlled?
+Is data ownership clear?
+What happens when dependencies fail?
+Can the system be observed?
+Can it be tested?
+Can it evolve?
+What security assumptions exist?
+What operational cost is introduced?
+```
+
+## Architecture Review Output
+
+Material architecture reviews SHOULD produce:
+
+- Approval.
+- Required changes.
+- Rejection.
+- Exception.
+- ADR/RFC update.
+
+---
+
+# 28. Exceptions
+
+Architecture exceptions MAY be granted when strict adherence would create greater technical or operational risk.
+
+## Exception Requirements
+
+A material exception SHOULD document:
+
+- Principle being violated.
+- Reason.
+- Risk.
+- Impact.
+- Compensating controls.
+- Owner.
+- Review date.
+- Expiration or remediation plan.
+
+## Repeated Exceptions
+
+Repeated exceptions SHOULD trigger review of the underlying architectural principle.
+
+---
+
+# 29. Related Documents
+
+Related AURA engineering documents include:
+
+- `DEPENDENCY_POLICY.md`
+- `DOCUMENTATION_STANDARD.md`
+- `STYLE_GUIDE.md`
+- `TESTING_STANDARD.md`
+- `API_DESIGN_STANDARD.md`
+- `DATA_MODELING_STANDARD.md`
+- `OBSERVABILITY_STANDARD.md`
+- `ERROR_HANDLING_STANDARD.md`
+- `RELEASE_PROCESS.md`
+- `BRANCHING_STRATEGY.md`
+
+Architectural decisions MAY additionally reference:
+
+- RFCs.
+- ADRs.
+- Architecture diagrams.
+- Threat models.
+- Schemas.
+- Runbooks.
+
+---
+
+# 30. Versioning
 
 This document follows Semantic Versioning.
 
-Version changes communicate the significance of modifications to the architectural standard itself.
+## Major
+
+Breaking changes to mandatory architectural requirements.
+
+## Minor
+
+Backward-compatible additions or expanded architectural guidance.
+
+## Patch
+
+Clarifications, corrections, formatting, and editorial changes.
+
+Material revisions SHALL remain traceable through version control.
 
 ---
 
-## Major Version
-
-A Major Version indicates a breaking change to the architectural governance model.
-
-Examples include:
-
-- Removal of a mandatory architectural principle.
-- Introduction of incompatible architectural requirements.
-- Fundamental redesign of the architecture governance model.
-
----
-
-## Minor Version
-
-A Minor Version introduces backward-compatible architectural guidance.
-
-Examples include:
-
-- Additional principles.
-- Expanded recommendations.
-- New architectural review guidance.
-- Additional examples.
-
----
-
-## Patch Version
-
-A Patch Version contains changes that do not alter architectural expectations.
-
-Examples include:
-
-- Grammar corrections.
-- Formatting improvements.
-- Clarifications.
-- Documentation refinements.
-
----
-
-## Revision Process
-
-Significant architectural changes SHOULD follow repository governance.
-
-Depending on impact, revisions MAY require:
-
-- RFC discussion.
-- Architecture Review.
-- ADR creation.
-- Maintainer approval.
-
-All revisions SHALL remain traceable through version control.
-
-# 25. Document Status
-
-## Document Information
+# 31. Document Status
 
 | Field | Value |
-|--------|-------|
+|---|---|
 | Status | Approved |
 | Version | 1.0.0 |
 | Classification | Engineering Standard |
 | Owner | AURA Architecture Team |
-| Document ID | GUIDE-ARCH-0001 |
+| Document ID | STANDARD-ARCH-0001 |
 | Review Cycle | Annual |
 | Next Review | YYYY-MM-DD |
 
 ---
 
-## Authority
+# Appendix A — Architecture Principle Matrix
 
-This document defines the official architectural principles for repositories governed by the **AURA Engineering Standards**.
-
-All contributors are expected to consider these principles when designing, implementing, reviewing, modifying, and evolving software systems.
-
----
-
-## Architectural Authority
-
-Significant architectural decisions SHOULD remain documented and traceable.
-
-Where an architecture decision materially affects system structure, an appropriate RFC or ADR SHOULD be created when required by repository governance.
-
----
-
-## Continuous Improvement
-
-Architectural practices SHALL evolve alongside repository maturity.
-
-Engineering teams SHOULD periodically review this document against:
-
-- Software engineering practices.
-- Security requirements.
-- Operational experience.
-- Scalability requirements.
-- Technology evolution.
-- Repository governance.
-
-Architecture is a long-term engineering asset and SHALL be maintained with the same discipline applied to production software.
+| Principle | Primary Objective | Typical Risk |
+|---|---|---|
+| Clear Responsibility | Define ownership | Responsibility overlap |
+| Explicit Boundaries | Control interaction | Boundary leakage |
+| Controlled Dependencies | Reduce coupling | Dependency explosion |
+| High Cohesion | Keep related behavior together | Scattered logic |
+| Low Coupling | Enable independent change | Cascading changes |
+| Stable Interfaces | Protect consumers | Breaking changes |
+| Data Ownership | Maintain authoritative state | Conflicting sources |
+| Failure Isolation | Contain failures | Cascading outage |
+| Security by Design | Reduce security risk | Architectural vulnerabilities |
+| Observability by Design | Enable diagnosis | Blind operation |
+| Testability | Enable verification | Untestable architecture |
+| Controlled Complexity | Preserve maintainability | Over-engineering |
+| Backward Compatibility | Reduce migration risk | Consumer breakage |
+| Incremental Evolution | Enable safe change | Rewrite pressure |
+| Decision Records | Preserve rationale | Repeated decisions |
 
 ---
 
-# Appendix A — Architecture Layers
+# Appendix B — Boundary Review Matrix
 
-## Purpose
-
-This appendix illustrates a generic architectural layering model.
-
-The model is informative and MAY be adapted to the requirements of individual systems.
-
----
-
-## Generic Layer Model
-
-```text
-┌───────────────────────────────┐
-│        Presentation           │
-├───────────────────────────────┤
-│        Application            │
-├───────────────────────────────┤
-│          Domain               │
-├───────────────────────────────┤
-│      Infrastructure           │
-└───────────────────────────────┘
-```
+| Question | Required Result |
+|---|---|
+| What is inside the boundary? | Explicit scope |
+| What is outside? | Explicit external dependencies |
+| Who owns the boundary? | Named owner |
+| What interface crosses it? | Defined contract |
+| What data crosses it? | Defined schema |
+| What trust assumptions exist? | Documented |
+| What happens on failure? | Defined behavior |
+| Can the boundary evolve independently? | Evaluated |
+| Is the boundary justified? | Evidence or architectural rationale |
 
 ---
 
-## Layer Responsibilities
+# Appendix C — Architecture Decision Matrix
 
-### Presentation
-
-Responsible for:
-
-* User interaction.
-* Request handling.
-* Response formatting.
-
----
-
-### Application
-
-Responsible for:
-
-* Use-case orchestration.
-* Application workflows.
-* Coordination between domain capabilities.
+| Decision Type | RFC | ADR | Architecture Review |
+|---|---:|---:|---:|
+| Minor implementation detail | Optional | No | No |
+| New major dependency | Recommended | Recommended | Risk-based |
+| New service boundary | Recommended | Yes | Yes |
+| Database technology change | Recommended | Yes | Yes |
+| Public API redesign | Recommended | Yes | Yes |
+| Security boundary change | Recommended | Yes | Yes |
+| Major scalability redesign | Recommended | Yes | Yes |
+| Temporary migration layer | Recommended | Recommended | Risk-based |
+| Breaking architectural change | Yes | Yes | Yes |
 
 ---
-
-### Domain
-
-Responsible for:
-
-* Business rules.
-* Domain models.
-* Core business behavior.
-
-The Domain layer SHOULD remain independent of infrastructure implementation details whenever practical.
-
----
-
-### Infrastructure
-
-Responsible for:
-
-* Databases.
-* External services.
-* Messaging systems.
-* Filesystems.
-* Infrastructure-specific implementations.
-
----
-
-## Dependency Direction
-
-Higher-level business policies SHOULD NOT depend directly on lower-level implementation details.
-
-Infrastructure SHOULD implement contracts required by higher-level components.
-
-This follows the Dependency Inversion principle.
-
-# Appendix B — Design Decision Matrix
-
-| Decision           | Primary Question                                                 |
-| ------------------ | ---------------------------------------------------------------- |
-| Component Boundary | Does this responsibility belong here?                            |
-| Modularity         | Can this capability evolve independently?                        |
-| Coupling           | Does this change unnecessarily affect other components?          |
-| Cohesion           | Do these responsibilities logically belong together?             |
-| Dependency         | Is the dependency explicit and justified?                        |
-| Scalability        | Can the design accommodate expected growth?                      |
-| Security           | Does the design minimize unnecessary trust and privilege?        |
-| Performance        | Is performance impact measurable and acceptable?                 |
-| Reliability        | What happens when this component fails?                          |
-| Maintainability    | Can future engineers understand and modify it safely?            |
-| Evolution          | Can the architecture change without disproportionate disruption? |
-
-
-# Appendix C — Engineering Principles Summary
-
-The AURA Architecture Principles can be summarized as:
-
-```text
-Simple
-  ↓
-Modular
-  ↓
-Cohesive
-  ↓
-Loosely Coupled
-  ↓
-Explicitly Dependent
-  ↓
-Secure
-  ↓
-Testable
-  ↓
-Scalable
-  ↓
-Maintainable
-  ↓
-Evolvable
-```
-
-These principles are complementary rather than isolated rules.
-
-A strong architecture balances them according to system requirements and measurable engineering constraints.
 
 # Appendix D — Architecture Review Checklist
 
-Before approving a significant architectural change, reviewers SHOULD verify:
+```text
+DOCUMENT / CHANGE:
+OWNER:
+REVIEWER:
+DATE:
 
-## Problem
+Responsibility
+[ ] Primary responsibility is clear
+[ ] Ownership is defined
+[ ] Responsibilities do not unnecessarily overlap
 
-* [ ] Problem is clearly defined.
-* [ ] Requirements are understood.
-* [ ] Architectural objective is explicit.
+Boundaries
+[ ] Architectural boundaries are explicit
+[ ] Boundary leakage has been evaluated
+[ ] Trust boundaries are identified
+[ ] Data ownership is clear
 
-## Structure
+Dependencies
+[ ] Dependency direction is intentional
+[ ] Circular dependencies are absent or justified
+[ ] External dependencies are controlled
+[ ] Vendor coupling is understood
 
-* [ ] Responsibilities are clearly separated.
-* [ ] Components have appropriate boundaries.
-* [ ] Cohesion is sufficient.
-* [ ] Coupling is minimized.
-* [ ] Dependencies are explicit.
+Interfaces
+[ ] Interfaces are explicit
+[ ] Inputs and outputs are defined
+[ ] Error behavior is defined
+[ ] Compatibility requirements are understood
 
-## Quality
+State
+[ ] State ownership is explicit
+[ ] Shared mutable state is controlled
+[ ] Cache versus source-of-truth distinction is clear
+[ ] Recovery behavior is understood
 
-* [ ] System remains testable.
-* [ ] Scalability requirements are addressed.
-* [ ] Performance implications are understood.
-* [ ] Failure behavior is defined.
-* [ ] Security risks are considered.
+Security
+[ ] Trust boundaries reviewed
+[ ] Least privilege considered
+[ ] Authentication responsibilities defined
+[ ] Authorization responsibilities defined
+[ ] Secrets are handled safely
 
-## Operations
+Reliability
+[ ] Failure modes identified
+[ ] Failure isolation considered
+[ ] Retry behavior is safe
+[ ] Cascading failure risks considered
+[ ] Recovery behavior defined
 
-* [ ] Observability requirements are understood.
-* [ ] Deployment impact is considered.
-* [ ] Rollback or recovery implications are understood.
+Observability
+[ ] Logs are sufficient
+[ ] Metrics are sufficient
+[ ] Tracing is sufficient where applicable
+[ ] Correlation is available
+[ ] Sensitive data is protected
 
-## Governance
+Performance
+[ ] Performance requirements are known
+[ ] Critical paths identified
+[ ] Capacity assumptions documented
+[ ] Performance complexity is justified
 
-* [ ] Required RFC/ADR exists when applicable.
-* [ ] Relevant engineering standards are satisfied.
-* [ ] Technical debt is documented when introduced.
-* [ ] Appropriate approval has been obtained.
+Evolution
+[ ] Backward compatibility considered
+[ ] Migration path exists where required
+[ ] Temporary compatibility layers have removal conditions
+[ ] Architectural debt is tracked
 
-## Final Decision
+Governance
+[ ] Significant decisions are documented
+[ ] RFC/ADR requirements satisfied
+[ ] Related standards reviewed
+[ ] Exceptions documented
 
-The architecture SHOULD be approved only when its benefits, risks, complexity, and long-term maintenance implications are sufficiently understood.
+FINAL RESULT:
 
+[ ] APPROVED
+[ ] APPROVED WITH CONDITIONS
+[ ] REQUIRES CHANGES
+[ ] REJECTED
+```
+
+---
 
 # End of Document
