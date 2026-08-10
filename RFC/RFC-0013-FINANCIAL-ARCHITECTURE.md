@@ -1,3 +1,47 @@
+---
+document_id: RFC-0013
+title: Financial Architecture
+status: Accepted
+version: 1.0.0
+category: Financial Architecture
+priority: Critical
+risk_level: Critical
+owner: AURA Architecture Team
+authors:
+  - AURA Architecture Team
+reviewers:
+  - Repository Maintainers
+approvers:
+  - Repository Maintainers
+created: 2026-08-10
+updated: 2026-08-10
+related_documents:
+  - RFC_METADATA_STANDARD.md
+  - DATA_MODELING_STANDARD.md
+  - SECURITY.md
+  - ARCHITECTURE_DEPENDENCY_GRAPH.md
+related_rfcs:
+  - RFC-0003
+  - RFC-0006
+  - RFC-0007
+  - RFC-0008
+  - RFC-0014
+related_adrs: []
+dependencies:
+  - RFC-0003
+  - RFC-0006
+  - RFC-0007
+  - RFC-0008
+supersedes: null
+superseded_by: null
+tags:
+  - finance
+  - payments
+  - refunds
+  - reconciliation
+  - idempotency
+  - audit
+---
 # RFC-0013 — Financial Architecture
 
 **Status:** Accepted  
