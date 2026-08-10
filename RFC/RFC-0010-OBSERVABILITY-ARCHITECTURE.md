@@ -1,3 +1,41 @@
+---
+document_id: RFC-0010
+title: Observability Architecture
+status: Accepted
+version: 1.0.0
+category: Observability Architecture
+priority: High
+risk_level: High
+owner: AURA Architecture Team
+authors:
+  - AURA Architecture Team
+reviewers:
+  - Repository Maintainers
+approvers:
+  - Repository Maintainers
+created: 2026-08-10
+updated: 2026-08-10
+related_documents:
+  - RFC_METADATA_STANDARD.md
+  - OBSERVABILITY_STANDARD.md
+  - ARCHITECTURE_DEPENDENCY_GRAPH.md
+related_rfcs:
+  - RFC-0008
+  - RFC-0009
+  - RFC-0018
+related_adrs: []
+dependencies:
+  - RFC-0008
+  - RFC-0009
+supersedes: null
+superseded_by: null
+tags:
+  - observability
+  - logging
+  - metrics
+  - tracing
+  - slo
+---
 # RFC-0010 — Observability Architecture
 
 **Status:** Accepted  
