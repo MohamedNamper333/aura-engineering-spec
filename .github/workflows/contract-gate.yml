@@ -2,19 +2,7 @@ name: Contract Gate
 
 on:
   pull_request:
-    paths:
-      - 'schemas/**'
-      - 'API_CONTRACTS.md'
-      - 'EVENT_CONTRACTS.md'
-      - 'CONTRACT_*.md'
-      - '.github/workflows/contract-gate.yml'
   push:
-    paths:
-      - 'schemas/**'
-      - 'API_CONTRACTS.md'
-      - 'EVENT_CONTRACTS.md'
-      - 'CONTRACT_*.md'
-      - '.github/workflows/contract-gate.yml'
 
 permissions:
   contents: read
@@ -26,51 +14,45 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
       - name: Validate JSON documents
         run: |
           node <<'NODE'
           const fs = require('fs');
           const path = require('path');
-
           function walk(dir) {
             return fs.readdirSync(dir, { withFileTypes: true }).flatMap(entry => {
               const file = path.join(dir, entry.name);
               return entry.isDirectory() ? walk(file) : [file];
             });
           }
-
           const files = walk('schemas').filter(file => file.endsWith('.json'));
           if (!files.length) throw new Error('No JSON contract files found');
-
-          for (const file of files) {
-            JSON.parse(fs.readFileSync(file, 'utf8'));
-          }
+          for (const file of files) JSON.parse(fs.readFileSync(file, 'utf8'));
           console.log(`Validated ${files.length} JSON contract files.`);
           NODE
+
+      - name: Validate readiness
+        run: node scripts/validate-readiness.mjs
 
       - name: Validate OpenAPI
         run: npx --yes @redocly/cli@latest lint schemas/api/openapi.yaml
 
-      - name: Validate contract directories
-        run: |
-          test -f schemas/api/openapi.yaml
-          test -f schemas/api/api-coverage-manifest.json
-          test -f schemas/events/event-registry.json
-          test -f schemas/events/envelope.schema.json
-          test -d schemas/events/fixtures
-
-      - name: Validate fixture JSON
+      - name: Validate SQL migration chain
         run: |
           node <<'NODE'
           const fs = require('fs');
-          const path = require('path');
-          function walk(dir) {
-            return fs.readdirSync(dir, { withFileTypes: true }).flatMap(entry => {
-              const file = path.join(dir, entry.name);
-              return entry.isDirectory() ? walk(file) : [file];
-            });
+          const manifest = JSON.parse(fs.readFileSync('schemas/database/migration-manifest.json', 'utf8'));
+          if (manifest.engine !== 'postgresql') throw new Error('Unsupported database engine');
+          if (!Array.isArray(manifest.migrations) || !manifest.migrations.length) throw new Error('Migration manifest is empty');
+          for (const migration of manifest.migrations) {
+            if (!fs.existsSync(migration.path)) throw new Error(`Missing migration: ${migration.path}`);
           }
-          const files = walk('schemas').filter(file => file.includes(`${path.sep}fixtures${path.sep}`) && file.endsWith('.json'));
-          for (const file of files) JSON.parse(fs.readFileSync(file, 'utf8'));
-          console.log(`Validated ${files.length} fixture files.`);
+          const ids = manifest.migrations.map(m => m.id);
+          if (new Set(ids).size !== ids.length) throw new Error('Duplicate migration id');
+          console.log(`Validated ${manifest.migrations.length} migration entries.`);
           NODE
