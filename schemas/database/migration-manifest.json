@@ -1,26 +1,13 @@
 {
-  "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://aura.example/schemas/database/migration-manifest.json",
-  "title": "AURA Database Migration Manifest",
-  "type": "object",
-  "additionalProperties": false,
-  "required": ["version", "engine", "source_of_truth", "migrations"],
-  "properties": {
-    "version": { "const": 1 },
-    "engine": { "const": "postgresql" },
-    "source_of_truth": { "const": "DATABASE_ARCHITECTURE.md" },
-    "migrations": {
-      "type": "array",
-      "items": {
-        "type": "object",
-        "additionalProperties": false,
-        "required": ["id", "path", "status"],
-        "properties": {
-          "id": { "type": "string", "pattern": "^[0-9]{4}_[a-z0-9_]+$" },
-          "path": { "type": "string", "pattern": "^schemas/database/migrations/.+\\.sql$" },
-          "status": { "type": "string", "enum": ["planned", "ready", "applied"] }
-        }
-      }
-    }
-  }
+  "version":1,
+  "engine":"postgresql",
+  "source_of_truth":"DATABASE_ARCHITECTURE.md",
+  "migrations":[
+    {"id":"0001_core","path":"schemas/database/migrations/0001_core.sql","status":"ready"},
+    {"id":"0002_learning","path":"schemas/database/migrations/0002_learning.sql","status":"ready"},
+    {"id":"0003_content","path":"schemas/database/migrations/0003_content.sql","status":"ready"},
+    {"id":"0004_activation_codes","path":"schemas/database/migrations/0004_activation_codes.sql","status":"ready"},
+    {"id":"0005_security_audit","path":"schemas/database/migrations/0005_security_audit.sql","status":"ready"},
+    {"id":"0006_idempotency","path":"schemas/database/migrations/0006_idempotency.sql","status":"ready"}
+  ]
 }
