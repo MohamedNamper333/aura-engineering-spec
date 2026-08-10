@@ -2,146 +2,153 @@
 
 This file is the navigation map for the AURA Engineering Specification repository.
 
-AURA is organized as a documentation-first engineering system. Each file or folder in this repository has a specific responsibility and should be treated as part of the single source of truth for the platform.
+AURA is organized as a documentation-first engineering system. The repository is the architectural source of truth for the platform.
 
 ---
 
 ## Start Here
 
-1. [README.md](README.md) — repository overview, purpose, and entry point.
-2. [TABLE_OF_CONTENTS.md](TABLE_OF_CONTENTS.md) — complete ordered list of specification documents.
-3. [CONTRIBUTING.md](CONTRIBUTING.md) — contribution workflow and rules.
-4. [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md) — expected collaboration behavior.
-5. [SECURITY.md](SECURITY.md) — security reporting and security-related workflows.
-6. [CHANGELOG.md](CHANGELOG.md) — repository-level change history.
+1. [README.md](README.md) — repository overview and entry point.
+2. [INDEX.md](INDEX.md) — repository navigation and document authority.
+3. [TABLE_OF_CONTENTS.md](TABLE_OF_CONTENTS.md) — ordered specification inventory.
+4. [ARCHITECTURE_AUDIT_REPORT.md](ARCHITECTURE_AUDIT_REPORT.md) — latest repository audit and gap analysis.
+5. [CONTRIBUTING.md](CONTRIBUTING.md) — contribution workflow and rules.
+6. [SECURITY.md](SECURITY.md) — security reporting and workflows.
+7. [CHANGELOG.md](CHANGELOG.md) — repository-level change history.
 
 ---
 
-## Core Specification Areas
+## Current Repository Baseline
 
-### RFC
-Request For Comments documents define the system architecture, domain rules, business rules, and implementation-level decisions.
+- RFC series: **RFC-0000 through RFC-0020 complete**.
+- Repository inventory: **46 files in the audited snapshot**.
+- ADRs: **not yet instantiated**; create them only for actual durable architecture decisions.
+- Context packs: planned for implementation phase.
+- Prompt packs: planned for implementation phase.
+- Schemas: introduce when stable machine-readable contracts exist.
+- Diagrams: introduce where visual representation materially improves architectural understanding.
+- Checklists/templates: introduce when the corresponding governance workflow becomes active.
 
-Planned RFC areas:
-- Product charter
-- Product vision and strategy
-- Product discovery and scope
-- Business architecture
-- Domain model
-- Database architecture
-- ERD
-- Backend architecture
-- Frontend architecture
-- API architecture
-- Authentication and authorization
-- Security architecture
-- Financial system
-- AI system
-- Notification system
-- Search and discovery system
-- Infrastructure and DevOps
-- Observability and analytics
-- High availability and disaster recovery
-- Governance and engineering standards
+The repository is **architecture-baseline ready but documentation-governance work remains**.
 
-### ADR
-Architecture Decision Records capture durable architectural decisions, rejected alternatives, trade-offs, and rationale.
+---
 
-Planned ADR areas:
-- Core technology choices
-- Architecture style
-- Database selection
-- API strategy
-- AI integration strategy
-- Deployment strategy
-- Security decisions
-- Multi-tenancy decisions
-- Financial workflow decisions
-- Media and storage decisions
+## RFC Series
 
-### Standards
-Engineering standards define the rules that all implementations must follow.
+RFCs define architectural requirements, boundaries, invariants, lifecycle rules, and system behavior.
 
-Planned standards:
-- Coding standards
-- Naming conventions
-- Folder and repository structure
-- Testing standards
-- Logging standards
-- Security standards
-- API standards
-- UI standards
-- Documentation standards
+| RFC | Area | Status |
+|---|---|---|
+| 0000 | Project Charter | Accepted |
+| 0001 | Product Vision | Accepted |
+| 0002 | Product Discovery | Accepted |
+| 0003 | Business Architecture | Accepted |
+| 0004 | Domain Architecture | Accepted |
+| 0005 | System Architecture | Accepted |
+| 0006 | Data Architecture | Accepted |
+| 0007 | API Architecture | Accepted |
+| 0008 | Security Architecture | Accepted |
+| 0009 | Infrastructure Architecture | Accepted |
+| 0010 | Observability Architecture | Accepted |
+| 0011 | Testing Architecture | Accepted |
+| 0012 | Deployment & Release Architecture | Accepted |
+| 0013 | Financial Architecture | Accepted |
+| 0014 | Learning Platform Architecture | Accepted |
+| 0015 | Content Architecture | Accepted |
+| 0016 | Identity & Access Architecture | Accepted |
+| 0017 | Notification Architecture | Accepted |
+| 0018 | Analytics Architecture | Accepted |
+| 0019 | AI Architecture | Accepted |
+| 0020 | Disaster Recovery & Business Continuity | Accepted |
+
+### RFC Governance Note
+
+RFC-0000 through RFC-0008 currently use structured YAML front matter. RFC-0009 through RFC-0020 use Markdown metadata. This inconsistency is a tracked remediation item and SHALL be normalized before declaring documentation governance complete.
+
+---
+
+## Standards
+
+The repository currently contains standards covering:
+
+- API design
+- Architecture principles
+- Branching
+- Commit conventions
+- Data modeling
+- Dependencies
+- Documentation
+- Error handling
+- Observability
+- Release process
+- Style
+- Testing
+- Threat modeling
+
+Standards define repeatable implementation rules; they do not replace RFCs or ADRs.
+
+---
+
+## ADR Policy
+
+ADRs capture durable decisions, rejected alternatives, trade-offs, and rationale.
+
+No placeholder ADRs SHALL be created merely to populate a planned directory. ADRs SHALL be added when an actual architectural choice warrants an independent decision record.
+
+---
+
+## Planned Implementation Artifacts
 
 ### Context Packs
-Context packs are AI-ready knowledge bundles for specific implementation domains.
 
-Planned context packs:
-- Backend context
-- Frontend context
-- Database context
-- Finance context
-- AI context
-- Security context
-- DevOps context
-- Testing context
+AI-ready bounded knowledge bundles derived from authoritative RFCs and standards.
 
-### Prompts
-Prompt packs define how AI agents should use this repository when generating or modifying code.
+### Prompt Packs
 
-Planned prompt packs:
-- Master implementation prompt
-- Backend prompt
-- Frontend prompt
-- Database prompt
-- AI prompt
-- DevOps prompt
-- Testing prompt
-- Security prompt
+Operating instructions for coding agents. Prompts SHALL not override architecture invariants.
 
 ### Schemas
-Machine-readable schemas provide structured definitions for entities, events, APIs, and configuration.
 
-Planned schemas:
-- Entity schemas
-- Event schemas
-- API schemas
-- Configuration schemas
-- Documentation metadata schemas
+Machine-readable contracts for stable entities, events, APIs, and configuration.
 
 ### Diagrams
-Architecture diagrams provide visual structure for the platform.
 
-Planned diagrams:
-- C4 context diagram
-- C4 container diagram
-- C4 component diagrams
-- ERD diagrams
-- Sequence diagrams
-- Deployment diagrams
-- BPMN diagrams
+C4, ERD, sequence, deployment, and process diagrams where they materially improve comprehension.
 
-### Checklists
-Checklists define validation steps for architecture, implementation, and release readiness.
+### Checklists / Templates
 
-Planned checklists:
-- Architecture review checklist
-- Security review checklist
-- Release checklist
-- Testing checklist
-- AI prompt review checklist
-- Documentation completeness checklist
+Governance artifacts introduced when their corresponding workflow becomes active.
 
-### Templates
-Templates standardize how new documents are created.
+---
 
-Planned templates:
-- RFC template
-- ADR template
-- Architecture spec template
-- API spec template
-- Checklist template
-- Prompt template
+## Authority Rules
+
+1. RFCs define architectural requirements and invariants.
+2. ADRs explain durable choices and trade-offs.
+3. Standards define repeatable implementation rules.
+4. Schemas define machine-readable contracts.
+5. Context packs package authoritative knowledge for bounded implementation tasks.
+6. Prompts define agent operating behavior but cannot override RFCs, ADRs, or standards.
+7. Diagrams explain structure visually but do not silently override textual authority.
+
+---
+
+## Implementation Reading Order
+
+For a new feature:
+
+```text
+README
+ -> INDEX
+ -> Relevant RFCs
+ -> Relevant ADRs
+ -> Relevant Standards
+ -> Schemas / Diagrams / Context Packs
+ -> Implementation
+ -> Tests
+```
+
+For an AI coding agent, the same dependency order applies. The agent SHALL resolve conflicts in favor of the highest-authority applicable document.
 
 ---
 
@@ -152,70 +159,26 @@ aura-engineering-spec/
 ├── README.md
 ├── INDEX.md
 ├── TABLE_OF_CONTENTS.md
+├── ARCHITECTURE_AUDIT_REPORT.md
 ├── CONTRIBUTING.md
 ├── CODE_OF_CONDUCT.md
 ├── SECURITY.md
 ├── CHANGELOG.md
+├── LICENSE
 ├── RFC/
-├── ADR/
-├── STANDARDS/
-├── CONTEXT/
-├── PROMPTS/
-├── SCHEMAS/
-├── DIAGRAMS/
-├── CHECKLISTS/
-└── TEMPLATES/
+└── docs/
 ```
 
----
-
-## Current Status
-
-- Repository foundation: in progress
-- Documentation framework: in progress
-- Core architecture documents: planned
-- AI prompt system: planned
-- Machine-readable schemas: planned
+Additional artifact directories SHALL be introduced when their first authoritative artifact is ready rather than as empty placeholders.
 
 ---
 
-## How to Use This Repository
+## Next Engineering Gates
 
-### If you are a human engineer
-Start with the README, then move to the RFCs in order, and use ADRs to understand why decisions were made.
-
-### If you are an AI coding agent
-Read the README, this index, the relevant RFCs, the applicable ADRs, and the relevant standards before producing or modifying code.
-
-### If you are implementing a feature
-Read the product and domain RFCs first, then the technical RFCs, then the matching standards and ADRs.
-
----
-
-## Navigation Rules
-
-1. Documentation must be read in dependency order.
-2. RFCs define what the system must do.
-3. ADRs define why decisions were made.
-4. Standards define how implementation must behave.
-5. Context packs define what an AI agent needs to know for a task.
-6. Schemas define the machine-readable contract for structured data.
-7. Diagrams clarify the architecture visually.
-
----
-
-## Next Milestones
-
-1. Finalize the repository foundation documents.
-2. Add the RFC template.
-3. Add the ADR template.
-4. Add the standards framework.
-5. Begin RFC-0000: Project Charter.
-
----
-
-## Notes
-
-This repository is intentionally documentation-first.
-
-No implementation code should be added until the relevant architecture, domain, and engineering rules are defined here.
+1. Normalize RFC metadata.
+2. Establish the canonical RFC dependency map.
+3. Record actual technology decisions as ADRs when selected.
+4. Generate implementation context packs from the finalized architecture.
+5. Add machine-readable schemas for stable contracts.
+6. Add architecture diagrams for major boundaries.
+7. Perform a pre-implementation consistency review before application code is introduced.
