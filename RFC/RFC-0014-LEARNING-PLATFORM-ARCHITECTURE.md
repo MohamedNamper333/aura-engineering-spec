@@ -1,3 +1,44 @@
+---
+document_id: RFC-0014
+title: Learning Platform Architecture
+status: Accepted
+version: 1.0.0
+category: Learning Platform Architecture
+priority: Critical
+risk_level: High
+owner: AURA Architecture Team
+authors:
+  - AURA Architecture Team
+reviewers:
+  - Repository Maintainers
+approvers:
+  - Repository Maintainers
+created: 2026-08-10
+updated: 2026-08-10
+related_documents:
+  - RFC_METADATA_STANDARD.md
+  - DATA_MODELING_STANDARD.md
+  - ARCHITECTURE_DEPENDENCY_GRAPH.md
+related_rfcs:
+  - RFC-0004
+  - RFC-0013
+  - RFC-0015
+  - RFC-0016
+related_adrs: []
+dependencies:
+  - RFC-0004
+  - RFC-0013
+  - RFC-0015
+  - RFC-0016
+supersedes: null
+superseded_by: null
+tags:
+  - learning
+  - enrollment
+  - progress
+  - assessments
+  - completion
+---
 # RFC-0014 — Learning Platform Architecture
 
 **Status:** Accepted  
