@@ -1,3 +1,40 @@
+---
+document_id: RFC-0016
+title: Identity & Access Architecture
+status: Accepted
+version: 1.0.0
+category: Identity and Access Architecture
+priority: Critical
+risk_level: Critical
+owner: AURA Architecture Team
+authors:
+  - AURA Architecture Team
+reviewers:
+  - Repository Maintainers
+approvers:
+  - Repository Maintainers
+created: 2026-08-10
+updated: 2026-08-10
+related_documents:
+  - RFC_METADATA_STANDARD.md
+  - SECURITY.md
+  - THREAT_MODELING_STANDARD.md
+  - ARCHITECTURE_DEPENDENCY_GRAPH.md
+related_rfcs:
+  - RFC-0008
+  - RFC-0014
+related_adrs: []
+dependencies:
+  - RFC-0008
+supersedes: null
+superseded_by: null
+tags:
+  - identity
+  - authentication
+  - authorization
+  - sessions
+  - iam
+---
 # RFC-0016 — Identity & Access Architecture
 
 **Status:** Accepted  
