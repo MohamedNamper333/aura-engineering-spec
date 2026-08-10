@@ -1,3 +1,41 @@
+---
+document_id: RFC-0012
+title: Deployment & Release Architecture
+status: Accepted
+version: 1.0.0
+category: Deployment and Release Architecture
+priority: Critical
+risk_level: Critical
+owner: AURA Architecture Team
+authors:
+  - AURA Architecture Team
+reviewers:
+  - Repository Maintainers
+approvers:
+  - Repository Maintainers
+created: 2026-08-10
+updated: 2026-08-10
+related_documents:
+  - RFC_METADATA_STANDARD.md
+  - RELEASE_PROCESS.md
+  - BRANCHING_STRATEGY.md
+  - ARCHITECTURE_DEPENDENCY_GRAPH.md
+related_rfcs:
+  - RFC-0009
+  - RFC-0011
+related_adrs: []
+dependencies:
+  - RFC-0009
+  - RFC-0011
+supersedes: null
+superseded_by: null
+tags:
+  - deployment
+  - release
+  - ci-cd
+  - migrations
+  - rollback
+---
 # RFC-0012 — Deployment & Release Architecture
 
 **Status:** Accepted  
