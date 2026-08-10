@@ -1,26 +1,26 @@
 {
-  "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://aura.example/schemas/events/event-registry.json",
-  "title": "AURA Event Contract Registry",
-  "type": "object",
-  "additionalProperties": false,
-  "required": ["version", "events"],
-  "properties": {
-    "version": { "const": 1 },
-    "events": {
-      "type": "array",
-      "minItems": 1,
-      "items": {
-        "type": "object",
-        "additionalProperties": false,
-        "required": ["event_type", "version", "schema", "producer", "consumers", "delivery"],
-        "properties": {
-          "event_type": { "type": "string", "minLength": 1 },
-          "version": { "type": "integer", "minimum": 1 },
-          "schema": { "type": "string", "pattern": "^schemas/events/.+\\.schema\\.json$" },
-          "producer": { "type": "string", "minLength": 1 },
-          "consumers": { "type": "array", "items": { "type": "string" } },
-          "delivery": { "const": "at-least-once" }
+  "$schema":"https://json-schema.org/draft/2020-12/schema",
+  "$id":"https://aura.example/schemas/events/event-registry.json",
+  "title":"AURA Event Contract Registry",
+  "type":"object","additionalProperties":false,
+  "required":["version","events"],
+  "properties":{
+    "version":{"const":1},
+    "events":{
+      "type":"array","minItems":1,"uniqueItems":true,
+      "items":{
+        "type":"object","additionalProperties":false,
+        "required":["event_type","version","schema","owner","producer","consumers","delivery","compatibility","fixture"],
+        "properties":{
+          "event_type":{"type":"string","minLength":1},
+          "version":{"type":"integer","minimum":1},
+          "schema":{"type":"string","pattern":"^schemas/events/.+\\.schema\\.json$"},
+          "owner":{"type":"string","minLength":1},
+          "producer":{"type":"string","minLength":1},
+          "consumers":{"type":"array","items":{"type":"string"}},
+          "delivery":{"const":"at-least-once"},
+          "compatibility":{"type":"string","enum":["backward-compatible-additions","new-version-for-breaking-change"]},
+          "fixture":{"type":"string","pattern":"^schemas/events/fixtures/.+\\.json$"}
         }
       }
     }
