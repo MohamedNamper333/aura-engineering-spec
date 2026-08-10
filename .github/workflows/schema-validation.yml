@@ -1,0 +1,60 @@
+name: Schema Validation
+
+on:
+  push:
+    paths:
+      - 'schemas/**'
+      - '.github/workflows/schema-validation.yml'
+  pull_request:
+    paths:
+      - 'schemas/**'
+      - '.github/workflows/schema-validation.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Validate JSON schemas
+        run: |
+          node <<'NODE'
+          const fs = require('fs');
+          const path = require('path');
+
+          function walk(dir) {
+            return fs.readdirSync(dir, { withFileTypes: true }).flatMap(entry => {
+              const p = path.join(dir, entry.name);
+              return entry.isDirectory() ? walk(p) : [p];
+            });
+          }
+
+          const files = walk('schemas').filter(file => file.endsWith('.json'));
+          if (files.length === 0) throw new Error('No JSON schemas found');
+
+          for (const file of files) {
+            JSON.parse(fs.readFileSync(file, 'utf8'));
+            console.log(`VALID JSON: ${file}`);
+          }
+          NODE
+
+      - name: Validate OpenAPI YAML structure
+        run: |
+          npx --yes @redocly/cli@latest lint schemas/api/openapi.yaml
+
+      - name: Check required schema directories
+        run: |
+          test -d schemas/api
+          test -d schemas/events
+          test -d schemas/domain
+          test -d schemas/ai
+          test -d schemas/database
