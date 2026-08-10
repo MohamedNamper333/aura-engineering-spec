@@ -1,3 +1,42 @@
+---
+document_id: RFC-0011
+title: Testing Architecture
+status: Accepted
+version: 1.0.0
+category: Testing Architecture
+priority: Critical
+risk_level: Critical
+owner: AURA Architecture Team
+authors:
+  - AURA Architecture Team
+reviewers:
+  - Repository Maintainers
+approvers:
+  - Repository Maintainers
+created: 2026-08-10
+updated: 2026-08-10
+related_documents:
+  - RFC_METADATA_STANDARD.md
+  - TESTING_STANDARD.md
+  - ARCHITECTURE_DEPENDENCY_GRAPH.md
+related_rfcs:
+  - RFC-0007
+  - RFC-0008
+  - RFC-0013
+related_adrs: []
+dependencies:
+  - RFC-0007
+  - RFC-0008
+  - RFC-0013
+supersedes: null
+superseded_by: null
+tags:
+  - testing
+  - security
+  - quality
+  - ci
+  - financial-integrity
+---
 # RFC-0011 — Testing Architecture
 
 **Status:** Accepted  
