@@ -1,3 +1,40 @@
+---
+document_id: RFC-0017
+title: Notification Architecture
+status: Accepted
+version: 1.0.0
+category: Notification Architecture
+priority: High
+risk_level: Medium
+owner: AURA Architecture Team
+authors:
+  - AURA Architecture Team
+reviewers:
+  - Repository Maintainers
+approvers:
+  - Repository Maintainers
+created: 2026-08-10
+updated: 2026-08-10
+related_documents:
+  - RFC_METADATA_STANDARD.md
+  - OBSERVABILITY_STANDARD.md
+  - ARCHITECTURE_DEPENDENCY_GRAPH.md
+related_rfcs:
+  - RFC-0010
+  - RFC-0004
+related_adrs: []
+dependencies:
+  - RFC-0004
+  - RFC-0010
+supersedes: null
+superseded_by: null
+tags:
+  - notifications
+  - messaging
+  - delivery
+  - providers
+  - retry
+---
 # RFC-0017 — Notification Architecture
 
 **Status:** Accepted  
