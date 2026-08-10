@@ -1,0 +1,15 @@
+{
+  "event_id": "evt_payment_confirmed_invalid_001",
+  "event_type": "PaymentConfirmed",
+  "event_version": 1,
+  "occurred_at": "2026-08-10T11:00:00Z",
+  "producer": "payments",
+  "aggregate_type": "payment",
+  "aggregate_id": "pay_001",
+  "correlation_id": "req_001",
+  "payload": {
+    "payment_id": "pay_001",
+    "amount_minor": 25000,
+    "currency": "IQD"
+  }
+}
