@@ -1,3 +1,47 @@
+---
+document_id: RFC-0019
+title: AI Architecture
+status: Accepted
+version: 1.0.0
+category: AI Architecture
+priority: High
+risk_level: High
+owner: AURA Architecture Team
+authors:
+  - AURA Architecture Team
+reviewers:
+  - Repository Maintainers
+approvers:
+  - Repository Maintainers
+created: 2026-08-10
+updated: 2026-08-10
+related_documents:
+  - RFC_METADATA_STANDARD.md
+  - SECURITY.md
+  - THREAT_MODELING_STANDARD.md
+  - ARCHITECTURE_DEPENDENCY_GRAPH.md
+related_rfcs:
+  - RFC-0008
+  - RFC-0010
+  - RFC-0014
+  - RFC-0015
+  - RFC-0016
+related_adrs: []
+dependencies:
+  - RFC-0008
+  - RFC-0014
+  - RFC-0015
+  - RFC-0016
+supersedes: null
+superseded_by: null
+tags:
+  - ai
+  - llm
+  - rag
+  - prompt-security
+  - evaluation
+  - privacy
+---
 # RFC-0019 — AI Architecture
 
 **Status:** Accepted  
