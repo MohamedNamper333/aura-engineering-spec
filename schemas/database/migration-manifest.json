@@ -1,0 +1,26 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aura.example/schemas/database/migration-manifest.json",
+  "title": "AURA Database Migration Manifest",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["version", "engine", "source_of_truth", "migrations"],
+  "properties": {
+    "version": { "const": 1 },
+    "engine": { "const": "postgresql" },
+    "source_of_truth": { "const": "DATABASE_ARCHITECTURE.md" },
+    "migrations": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "path", "status"],
+        "properties": {
+          "id": { "type": "string", "pattern": "^[0-9]{4}_[a-z0-9_]+$" },
+          "path": { "type": "string", "pattern": "^schemas/database/migrations/.+\\.sql$" },
+          "status": { "type": "string", "enum": ["planned", "ready", "applied"] }
+        }
+      }
+    }
+  }
+}
