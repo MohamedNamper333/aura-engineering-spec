@@ -1,0 +1,76 @@
+name: Contract Gate
+
+on:
+  pull_request:
+    paths:
+      - 'schemas/**'
+      - 'API_CONTRACTS.md'
+      - 'EVENT_CONTRACTS.md'
+      - 'CONTRACT_*.md'
+      - '.github/workflows/contract-gate.yml'
+  push:
+    paths:
+      - 'schemas/**'
+      - 'API_CONTRACTS.md'
+      - 'EVENT_CONTRACTS.md'
+      - 'CONTRACT_*.md'
+      - '.github/workflows/contract-gate.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  contract-gate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Validate JSON documents
+        run: |
+          node <<'NODE'
+          const fs = require('fs');
+          const path = require('path');
+
+          function walk(dir) {
+            return fs.readdirSync(dir, { withFileTypes: true }).flatMap(entry => {
+              const file = path.join(dir, entry.name);
+              return entry.isDirectory() ? walk(file) : [file];
+            });
+          }
+
+          const files = walk('schemas').filter(file => file.endsWith('.json'));
+          if (!files.length) throw new Error('No JSON contract files found');
+
+          for (const file of files) {
+            JSON.parse(fs.readFileSync(file, 'utf8'));
+          }
+          console.log(`Validated ${files.length} JSON contract files.`);
+          NODE
+
+      - name: Validate OpenAPI
+        run: npx --yes @redocly/cli@latest lint schemas/api/openapi.yaml
+
+      - name: Validate contract directories
+        run: |
+          test -f schemas/api/openapi.yaml
+          test -f schemas/api/api-coverage-manifest.json
+          test -f schemas/events/event-registry.json
+          test -f schemas/events/envelope.schema.json
+          test -d schemas/events/fixtures
+
+      - name: Validate fixture JSON
+        run: |
+          node <<'NODE'
+          const fs = require('fs');
+          const path = require('path');
+          function walk(dir) {
+            return fs.readdirSync(dir, { withFileTypes: true }).flatMap(entry => {
+              const file = path.join(dir, entry.name);
+              return entry.isDirectory() ? walk(file) : [file];
+            });
+          }
+          const files = walk('schemas').filter(file => file.includes(`${path.sep}fixtures${path.sep}`) && file.endsWith('.json'));
+          for (const file of files) JSON.parse(fs.readFileSync(file, 'utf8'));
+          console.log(`Validated ${files.length} fixture files.`);
+          NODE
