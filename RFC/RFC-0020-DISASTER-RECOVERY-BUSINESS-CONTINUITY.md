@@ -1,3 +1,46 @@
+---
+document_id: RFC-0020
+title: Disaster Recovery & Business Continuity
+status: Accepted
+version: 1.0.0
+category: Disaster Recovery and Business Continuity
+priority: Critical
+risk_level: Critical
+owner: AURA Architecture Team
+authors:
+  - AURA Architecture Team
+reviewers:
+  - Repository Maintainers
+approvers:
+  - Repository Maintainers
+created: 2026-08-10
+updated: 2026-08-10
+related_documents:
+  - RFC_METADATA_STANDARD.md
+  - SECURITY.md
+  - ARCHITECTURE_DEPENDENCY_GRAPH.md
+related_rfcs:
+  - RFC-0006
+  - RFC-0008
+  - RFC-0009
+  - RFC-0013
+  - RFC-0015
+related_adrs: []
+dependencies:
+  - RFC-0006
+  - RFC-0008
+  - RFC-0009
+  - RFC-0013
+supersedes: null
+superseded_by: null
+tags:
+  - disaster-recovery
+  - business-continuity
+  - backups
+  - rpo
+  - rto
+  - incident-response
+---
 # RFC-0020 — Disaster Recovery & Business Continuity
 
 **Status:** Accepted  
