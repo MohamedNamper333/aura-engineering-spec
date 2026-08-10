@@ -9,5 +9,13 @@
     "source_contract":{"const":"EVENT_CONTRACTS.md"},
     "registry":{"const":"schemas/events/event-registry.json"},
     "events":{"type":"array","minItems":1,"uniqueItems":true,"items":{"type":"object","additionalProperties":false,"required":["event_type","version"],"properties":{"event_type":{"type":"string","minLength":1},"version":{"type":"integer","minimum":1}}}}
-  }
+  },
+  "events":[
+    {"event_type":"UserRegistered","version":1},{"event_type":"UserSuspended","version":1},{"event_type":"UserReactivated","version":1},
+    {"event_type":"OrderCreated","version":1},{"event_type":"OrderCancelled","version":1},{"event_type":"PaymentInitiated","version":1},{"event_type":"PaymentConfirmed","version":1},{"event_type":"PaymentFailed","version":1},{"event_type":"PaymentReconciliationRequired","version":1},{"event_type":"RefundRequested","version":1},{"event_type":"RefundConfirmed","version":1},{"event_type":"RefundFailed","version":1},
+    {"event_type":"EntitlementGranted","version":1},{"event_type":"EntitlementRevoked","version":1},{"event_type":"ActivationCodeRedeemed","version":1},
+    {"event_type":"EnrollmentCreated","version":1},{"event_type":"LectureProgressUpdated","version":1},{"event_type":"LectureCompleted","version":1},{"event_type":"QuizAttemptSubmitted","version":1},{"event_type":"CourseCompleted","version":1},
+    {"event_type":"ContentVersionPublished","version":1},{"event_type":"ContentVersionArchived","version":1},
+    {"event_type":"RoleAssigned","version":1},{"event_type":"RoleRevoked","version":1},{"event_type":"PrivilegedActionRecorded","version":1}
+  ]
 }
