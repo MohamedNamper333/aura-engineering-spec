@@ -13,10 +13,7 @@
       "items":{
         "type":"object","additionalProperties":false,
         "required":["event_type","version"],
-        "properties":{
-          "event_type":{"type":"string","minLength":1},
-          "version":{"type":"integer","minimum":1}
-        }
+        "properties":{"event_type":{"type":"string","minLength":1},"version":{"type":"integer","minimum":1}}
       }
     }
   }
