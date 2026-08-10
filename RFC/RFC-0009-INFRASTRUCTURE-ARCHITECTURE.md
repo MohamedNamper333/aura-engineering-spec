@@ -1,3 +1,43 @@
+---
+document_id: RFC-0009
+title: Infrastructure Architecture
+status: Accepted
+version: 1.0.0
+category: Infrastructure Architecture
+priority: Critical
+risk_level: High
+owner: AURA Architecture Team
+authors:
+  - AURA Architecture Team
+reviewers:
+  - Repository Maintainers
+approvers:
+  - Repository Maintainers
+created: 2026-08-10
+updated: 2026-08-10
+related_documents:
+  - RFC_METADATA_STANDARD.md
+  - ARCHITECTURE_DEPENDENCY_GRAPH.md
+  - ARCHITECTURE_TRACEABILITY_MATRIX.md
+related_rfcs:
+  - RFC-0005
+  - RFC-0008
+  - RFC-0020
+related_adrs: []
+dependencies:
+  - RFC-0005
+  - RFC-0008
+  - RFC-0020
+supersedes: null
+superseded_by: null
+tags:
+  - infrastructure
+  - deployment
+  - networking
+  - database
+  - storage
+  - disaster-recovery
+---
 # RFC-0009 — Infrastructure Architecture
 
 **Status:** Accepted  
