@@ -1,26 +1,23 @@
 {
-  "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://aura.example/schemas/api/api-coverage-manifest.json",
-  "title": "AURA API Contract Coverage Manifest",
-  "type": "object",
-  "additionalProperties": false,
-  "required": ["version", "source_contract", "openapi", "operations"],
-  "properties": {
-    "version": { "const": 1 },
-    "source_contract": { "const": "API_CONTRACTS.md" },
-    "openapi": { "const": "schemas/api/openapi.yaml" },
-    "operations": {
-      "type": "array",
-      "minItems": 1,
-      "items": {
-        "type": "object",
-        "additionalProperties": false,
-        "required": ["method", "path", "operation_id", "status"],
-        "properties": {
-          "method": { "type": "string", "enum": ["GET", "POST", "PUT", "PATCH", "DELETE"] },
-          "path": { "type": "string", "pattern": "^/api/v1/" },
-          "operation_id": { "type": "string", "minLength": 1 },
-          "status": { "type": "string", "enum": ["implemented", "planned", "deprecated"] }
+  "$schema":"https://json-schema.org/draft/2020-12/schema",
+  "$id":"https://aura.example/schemas/api/api-coverage-manifest.json",
+  "title":"AURA API Contract Coverage Manifest",
+  "type":"object","additionalProperties":false,
+  "required":["version","source_contract","openapi","operations"],
+  "properties":{
+    "version":{"const":1},
+    "source_contract":{"const":"API_CONTRACTS.md"},
+    "openapi":{"const":"schemas/api/openapi.yaml"},
+    "operations":{
+      "type":"array","minItems":1,
+      "items":{
+        "type":"object","additionalProperties":false,
+        "required":["method","path","operation_id","status"],
+        "properties":{
+          "method":{"type":"string","enum":["GET","POST","PUT","PATCH","DELETE"]},
+          "path":{"type":"string","pattern":"^/api/v1/"},
+          "operation_id":{"type":"string","minLength":1},
+          "status":{"type":"string","enum":["implemented","planned","deprecated"]}
         }
       }
     }
